@@ -2,7 +2,7 @@
 set -euo pipefail
 
 echo "Running the initial set up of the system..."
-REPO_ROOT=$(dirname "$0")
+REPO_ROOT=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null &&  pwd )
 echo "Setting symlinks to point to $REPO_ROOT"
 
 
@@ -36,5 +36,12 @@ ln -s "$REPO_ROOT"/home.nix /home/stusmall/.config/home-manager/home.nix
 echo "Setting configuration symlink"
 sudo rm -f /etc/nixos/configuration.nix || true
 sudo ln -s "$REPO_ROOT"/configuration.nix /etc/nixos/configuration.nix
+
+echo "Setting up channels"
+sudo nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz home-manager
+sudo nix-channel --update
+
+echo "Rebuilding the OS"
+sudo nixos-rebuild switch
 
 echo "All done!"
