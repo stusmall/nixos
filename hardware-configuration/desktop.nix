@@ -43,7 +43,7 @@
   #};
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   # Needed for steam: https://github.com/NixOS/nixpkgs/issues/47932
-  hardware.opengl.driSupport32Bit = true;
+  # hardware.opengl.driSupport32Bit = true;
   
   # This gives the system the properties needed to rebuild all packages
   nix.settings.system-features = ["big-parallel" "gccarch-znver3"];
