@@ -18,6 +18,7 @@
     pkgs.htop
     pkgs.jetbrains.clion
     pkgs.jetbrains.pycharm-professional
+    pkgs.jq
     pkgs.kubectl
     pkgs.opensnitch-ui
     pkgs.pciutils

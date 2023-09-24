@@ -7,21 +7,8 @@
       /etc/nixos/hardware-configuration.nix
     ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-
   # Use the newest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
-
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
-  };
-
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -73,29 +60,100 @@
 
   services.opensnitch = {
     enable = true;
+    settings.DefaultAction = "deny";
     rules = {
-      systemd-timesyncd = {
-        name = "systemd-timesyncd";
+      localhost = {
+        name = "000-allow-localhost";
         enabled = true;
         action = "allow";
         duration = "always";
         operator = {
-          type ="simple";
+          type = "regexp";
+          operand = "dest.ip";
           sensitive = false;
-          operand = "process.path";
-          data = "${lib.getBin pkgs.systemd}/lib/systemd/systemd-timesyncd";
+          data = "^(127\\.0\\.0\\.1|::1)$";
+          list = [];
         };
       };
-      systemd-resolved = {
-        name = "systemd-resolved";
+
+      avahi-ipv4 = {
+        name = "001-allow-avahi-daemon-ipv4";
         enabled = true;
         action = "allow";
         duration = "always";
         operator = {
-          type ="simple";
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              operand = "process.path";
+              sensitive = false;
+              data =  "${lib.getBin pkgs.avahi}/bin/avahi-daemon";
+            }
+            {
+              type = "network";
+              operand = "dest.network";
+              data = "224.0.0.0/24";
+            }
+          ];
+        };
+      };
+      avahi-ipv6 = {
+        name = "002-allow-avahi-daemon-ipv6";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              operand = "process.path";
+              sensitive = false;
+              data =  "${lib.getBin pkgs.avahi}/bin/avahi-daemon";
+            }
+            {
+              type = "simple";
+              operand = "dest.ip";
+              data = "ff02::fb";
+            }];
+        };
+      };
+      ntp = {
+        name = "003-allow-timesyncd";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type ="simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.systemd}/lib/systemd/systemd-timesyncd";
+            }
+            {
+              type = "regexp";
+              operand = "dest.host";
+              data = ".*\\.nixos\\.pool\\.ntp\\.org";
+            }
+          ];
+        };
+      };
+      firefox = {
+        name = "999-allow-firefox";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "simple";
           sensitive = false;
           operand = "process.path";
-          data = "${lib.getBin pkgs.systemd}/lib/systemd/systemd-resolved";
+          data = "${lib.getBin pkgs.firefox}/lib/firefox/firefox";
         };
       };
     };
@@ -108,7 +166,7 @@
   users.users.stusmall = {
     isNormalUser = true;
     description = "Stuart Small";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "wireshark" ];
   };
 
   # Make nixos-rebuild invoke home-manager

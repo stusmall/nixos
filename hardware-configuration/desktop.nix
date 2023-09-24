@@ -13,12 +13,23 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  networking.hostName = "nixos"; # Define your hostname.
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/5edc3e6f-63a9-4cb7-94e4-d7aec2b7db7c";
       fsType = "ext4";
     };
 
   boot.initrd.luks.devices."luks-132a94c8-0ac9-4725-a3c3-f42ef3c0fab5".device = "/dev/disk/by-uuid/132a94c8-0ac9-4725-a3c3-f42ef3c0fab5";
+
+  # Setup keyfile
+  boot.initrd.secrets = {
+    "/crypto_keyfile.bin" = null;
+  };
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/BDF5-28BC";
