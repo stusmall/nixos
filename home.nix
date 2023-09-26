@@ -1,5 +1,7 @@
 { config, pkgs, ... }:
 
+
+
 {
   home.username = "stusmall";
   home.homeDirectory = "/home/stusmall";
@@ -70,8 +72,6 @@
     pinentryFlavor = "gnome3";
   };
 
-  services.opensnitch-ui.enable = true;
-
   programs.git = {
     enable = true;
     userName = "Stu Small";
@@ -114,11 +114,17 @@ set nobackup nowritebackup noswapfile
       show-battery-percentage = true;
     };
     "org/gnome/shell" = {
-      enabled-extensions = ["dash-to-dock@micxgx.gmail.com"];
+      enabled-extensions = ["appindicatorsupport@rgcjonas.gmail.com" "dash-to-dock@micxgx.gmail.com"];
       favorite-apps = ["Alacritty.desktop" "firefox.desktop" "clion.desktop" "pycharm-professional.desktop"];
     };
     "org/gnome/shell/extensions/dash-to-dock" = {
       apply-custom-theme = true;
     };
   };
+
+  # Set start up applications
+  # shitty version of this https://github.com/nix-community/home-manager/issues/3447#issuecomment-1328294558
+   home.file.".config/autostart/opensnitch_ui.desktop".source = (pkgs.opensnitch-ui + "/share/applications/opensnitch_ui.desktop");
+
 }
+
