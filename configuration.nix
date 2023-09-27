@@ -13,6 +13,44 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  # Don't let networkmanager manage DNS settings.  We only want the DNS servers declared here
+  networking.networkmanager.dns = "none";
+
+  services.dnscrypt-proxy2 = {
+    enable = true;
+    settings = {
+      # To simplify opensnitch rules we want to know our bootstrap resolvers
+      bootstrap_resolvers = ["1.0.0.2:53" "1.1.1.2:53" ];
+      ipv6_servers = true;
+      require_dnssec = true;
+      # These values are pulled from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/247e1ad7642ccf2154329373daf5908c64efaeb0/v3/public-resolvers.md?plain=1#L446
+      # But with one minor change for some reason it only lists 1.0.0.2 and leaves out 1.1.1.2.  These static entries fix that.
+      # To view or edit stamp entries use: https://dnscrypt.info/stamps/
+      # To test if the security protection works goto: https://phishing.testcategory.com or https://malware.testcategory.com/
+      static = {
+        cloudflare-security-1 = {
+          stamp = "sdns://AgMAAAAAAAAABzEuMS4xLjIAG3NlY3VyaXR5LmNsb3VkZmxhcmUtZG5zLmNvbQovZG5zLXF1ZXJ5";
+        };
+        cloudflare-security-2 = {
+          stamp = "sdns://AgMAAAAAAAAABzEuMC4wLjIAG3NlY3VyaXR5LmNsb3VkZmxhcmUtZG5zLmNvbQovZG5zLXF1ZXJ5";
+        };
+        cloudflare-security-ipv6-1 = {
+          stamp = "sdns://AgcAAAAAAAAAFlsyNjA2OjQ3MDA6NDcwMDo6MTExMV0AIDFkb3QxZG90MWRvdDEuY2xvdWRmbGFyZS1kbnMuY29tCi9kbnMtcXVlcnk";
+        };
+        cloudflare-security-ipv6-2 = {
+          stamp = "sdns://AgcAAAAAAAAAFlsyNjA2OjQ3MDA6NDcwMDo6MTAwMV0AIDFkb3QxZG90MWRvdDEuY2xvdWRmbGFyZS1kbnMuY29tCi9kbnMtcXVlcnk";
+        };
+      };
+      server_names = [
+        "cloudflare-security-1"
+        "cloudflare-security-2"
+        "cloudflare-security-ipv6-1"
+        "cloudflare-security-ipv6-2"
+      ];
+    };
+  };
+
+
   # Set your time zone.
   time.timeZone = "America/Denver";
 
@@ -62,8 +100,8 @@
     enable = true;
     settings.DefaultAction = "deny";
     rules = {
-      localhost = {
-        name = "000-allow-localhost";
+      rule-000-localhost = {
+        name = "Allow all localhost";
         enabled = true;
         action = "allow";
         duration = "always";
@@ -75,9 +113,8 @@
           list = [];
         };
       };
-
-      avahi-ipv4 = {
-        name = "001-allow-avahi-daemon-ipv4";
+      rule-001-avahi-ipv4 = {
+        name = "Allow avahi daemon IPv4";
         enabled = true;
         action = "allow";
         duration = "always";
@@ -99,8 +136,8 @@
           ];
         };
       };
-      avahi-ipv6 = {
-        name = "002-allow-avahi-daemon-ipv6";
+      rule-002-avahi-ipv6 = {
+        name = "Allow avahi daemon IPv6";
         enabled = true;
         action = "allow";
         duration = "always";
@@ -121,8 +158,8 @@
             }];
         };
       };
-      ntp = {
-        name = "003-allow-timesyncd";
+      rule-004-ntp = {
+        name = "Allow NTP";
         enabled = true;
         action = "allow";
         duration = "always";
@@ -144,8 +181,56 @@
           ];
         };
       };
-      firefox = {
-        name = "999-allow-firefox";
+      rule-004-bootstrap-dns = {
+        name = "Bootstrap DNS";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.dnscrypt-proxy2}/bin/dnscrypt-proxy";
+            }
+            {
+              type = "regexp";
+              operand = "dest.ip";
+              sensitive = false;
+              data = "^(1\\.0\\.0\\.2|1\\.1\\.1\\.2)$";
+            }
+          ];
+        };
+      };
+      rule-005-dns = {
+        name = "Allow DNS";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type ="simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.dnscrypt-proxy2}/bin/dnscrypt-proxy";
+            }
+            {
+              type = "regexp";
+              operand = "dest.host";
+              sensitive = false;
+              data = "^(raw.githubusercontent.com|download.dnscrypt.info|security.cloudflare-dns.com)$";
+            }
+          ];
+        };
+      };
+      rule-999-firefox = {
+        name = "Allow Firefox";
         enabled = true;
         action = "allow";
         duration = "always";
