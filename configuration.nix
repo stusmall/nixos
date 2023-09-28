@@ -16,37 +16,27 @@
   # Don't let networkmanager manage DNS settings.  We only want the DNS servers declared here
   networking.networkmanager.dns = "none";
 
-  services.dnscrypt-proxy2 = {
+  # Enabled DoH
+  # pkgs.stubby.passthru.settingsExample is the example toml from the root of the github repo.  It has a series of opinionated, safe defaults
+  # TODO: Eventually it would be nice to replace this with trust-dns
+  services.stubby = {
     enable = true;
-    settings = {
-      # To simplify opensnitch rules we want to know our bootstrap resolvers
-      bootstrap_resolvers = ["1.0.0.2:53" "1.1.1.2:53" ];
-      ipv6_servers = true;
-      require_dnssec = true;
-      # These values are pulled from https://github.com/DNSCrypt/dnscrypt-resolvers/blob/247e1ad7642ccf2154329373daf5908c64efaeb0/v3/public-resolvers.md?plain=1#L446
-      # But with one minor change for some reason it only lists 1.0.0.2 and leaves out 1.1.1.2.  These static entries fix that.
-      # To view or edit stamp entries use: https://dnscrypt.info/stamps/
-      # To test if the security protection works goto: https://phishing.testcategory.com or https://malware.testcategory.com/
-      static = {
-        cloudflare-security-1 = {
-          stamp = "sdns://AgMAAAAAAAAABzEuMS4xLjIAG3NlY3VyaXR5LmNsb3VkZmxhcmUtZG5zLmNvbQovZG5zLXF1ZXJ5";
-        };
-        cloudflare-security-2 = {
-          stamp = "sdns://AgMAAAAAAAAABzEuMC4wLjIAG3NlY3VyaXR5LmNsb3VkZmxhcmUtZG5zLmNvbQovZG5zLXF1ZXJ5";
-        };
-        cloudflare-security-ipv6-1 = {
-          stamp = "sdns://AgcAAAAAAAAAFlsyNjA2OjQ3MDA6NDcwMDo6MTExMV0AIDFkb3QxZG90MWRvdDEuY2xvdWRmbGFyZS1kbnMuY29tCi9kbnMtcXVlcnk";
-        };
-        cloudflare-security-ipv6-2 = {
-          stamp = "sdns://AgcAAAAAAAAAFlsyNjA2OjQ3MDA6NDcwMDo6MTAwMV0AIDFkb3QxZG90MWRvdDEuY2xvdWRmbGFyZS1kbnMuY29tCi9kbnMtcXVlcnk";
-        };
-      };
-      server_names = [
-        "cloudflare-security-1"
-        "cloudflare-security-2"
-        "cloudflare-security-ipv6-1"
-        "cloudflare-security-ipv6-2"
-      ];
+    settings = pkgs.stubby.passthru.settingsExample // {
+      upstream_recursive_servers = [{
+        address_data = "1.0.0.2";
+        tls_auth_name = "security.cloudflare-dns.com";
+        tls_pubkey_pinset = [{
+          digest = "sha256";
+          value = "GP8Knf7qBae+aIfythytMbYnL+yowaWVeD6MoLHkVRg=";
+        }];
+      } {
+        address_data = "1.1.1.2";
+        tls_auth_name = "security.cloudflare-dns.com";
+        tls_pubkey_pinset = [{
+          digest = "sha256";
+          value = "GP8Knf7qBae+aIfythytMbYnL+yowaWVeD6MoLHkVRg=";
+        }];
+      }];
     };
   };
 
@@ -181,8 +171,8 @@
           ];
         };
       };
-      rule-004-bootstrap-dns = {
-        name = "Bootstrap DNS";
+      rule-004-dns-over-https = {
+        name = "Allow encrypted DNS to Cloudflare";
         enabled = true;
         action = "allow";
         duration = "always";
@@ -194,7 +184,7 @@
               type = "simple";
               sensitive = false;
               operand = "process.path";
-              data = "${lib.getBin pkgs.dnscrypt-proxy2}/bin/dnscrypt-proxy";
+              data = "${lib.getBin pkgs.stubby}/bin/stubby";
             }
             {
               type = "regexp";
@@ -205,30 +195,7 @@
           ];
         };
       };
-      rule-005-dns = {
-        name = "Allow DNS";
-        enabled = true;
-        action = "allow";
-        duration = "always";
-        operator = {
-          type = "list";
-          operand = "list";
-          list = [
-            {
-              type ="simple";
-              sensitive = false;
-              operand = "process.path";
-              data = "${lib.getBin pkgs.dnscrypt-proxy2}/bin/dnscrypt-proxy";
-            }
-            {
-              type = "regexp";
-              operand = "dest.host";
-              sensitive = false;
-              data = "^(raw.githubusercontent.com|download.dnscrypt.info|security.cloudflare-dns.com)$";
-            }
-          ];
-        };
-      };
+
       rule-999-firefox = {
         name = "Allow Firefox";
         enabled = true;

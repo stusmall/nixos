@@ -12,6 +12,7 @@
 
   home.packages = [
     pkgs.alacritty
+    pkgs.dig
     pkgs.discord
     pkgs.docker
     pkgs.firefox
@@ -23,6 +24,7 @@
     pkgs.jq
     pkgs.kubectl
     pkgs.opensnitch-ui
+    pkgs.openssl
     pkgs.pciutils
     pkgs.ripgrep
     pkgs.meld
