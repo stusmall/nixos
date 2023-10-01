@@ -320,7 +320,17 @@
   users.users.stusmall = {
     isNormalUser = true;
     description = "Stuart Small";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wireshark" "wheel" ];
+  };
+
+  # Define the wireshark group and set dumpcap with it.  This allows us to capture as nonroot
+  # The wireshark package won't do this for us
+  users.groups.wireshark = {};
+  security.wrappers.dumpcap = {
+    source = "${pkgs.wireshark}/bin/dumpcap";
+    permissions = "u+xs,g+x";
+    owner = "root";
+    group = "wireshark";
   };
 
   # Make nixos-rebuild invoke home-manager
