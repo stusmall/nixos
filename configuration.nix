@@ -167,9 +167,16 @@
               data = "${lib.getBin pkgs.systemd}/lib/systemd/systemd-timesyncd";
             }
             {
-              type = "regexp";
-              operand = "dest.host";
-              data = ".*\\.nixos\\.pool\\.ntp\\.org";
+              type = "simple";
+              operand = "dest.port";
+              sensitive = false;
+              data = "123";
+            }
+            {
+              type = "simple";
+              operand = "protocol";
+              sensitive = false;
+              data = "udp";
             }
           ];
         };
@@ -217,7 +224,7 @@
               type = "regexp";
               operand = "dest.host";
               sensitive = false;
-              data = "^(github\.com|nixos\.org|.*nixos\.org)$";
+              data = "^(([a-z0-9|-]+\.)*github\.com|([a-z0-9|-]+\.)*nixos\.org)$";
             }
           ];
         };

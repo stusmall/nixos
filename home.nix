@@ -12,6 +12,7 @@
 
   home.packages = [
     pkgs.alacritty
+    pkgs.cargo
     pkgs.dig
     pkgs.docker
     pkgs.firefox
@@ -27,7 +28,9 @@
     pkgs.pciutils
     pkgs.ripgrep
     pkgs.meld
+    pkgs.nixpkgs-fmt
     pkgs.nmap
+    pkgs.shellcheck
     pkgs.signal-desktop
     pkgs.spotify
     pkgs.tokei
