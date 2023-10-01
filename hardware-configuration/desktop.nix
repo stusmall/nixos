@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
@@ -20,7 +21,8 @@
   networking.hostName = "nixos"; # Define your hostname.
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/5edc3e6f-63a9-4cb7-94e4-d7aec2b7db7c";
+    {
+      device = "/dev/disk/by-uuid/5edc3e6f-63a9-4cb7-94e4-d7aec2b7db7c";
       fsType = "ext4";
     };
 
@@ -32,7 +34,8 @@
   };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/BDF5-28BC";
+    {
+      device = "/dev/disk/by-uuid/BDF5-28BC";
       fsType = "vfat";
     };
 
@@ -49,17 +52,17 @@
   #nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   #nixpkgs.hostPlatform = {
-   # system = "x86_64-linux";
-   # gcc.arch = "znver3";
+  # system = "x86_64-linux";
+  # gcc.arch = "znver3";
   #};
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   # This gives the system the properties needed to rebuild all packages
-  nix.settings.system-features = ["big-parallel" "gccarch-znver3"];
+  nix.settings.system-features = [ "big-parallel" "gccarch-znver3" ];
   # uncomment this to rebuild the system from source
-#  nixpkgs.localSystem = {
-#    gcc.arch = "znver3";
-#    gcc.tune = "znver3";
-#    system = "x86_64-linux";
-#  };
+  #  nixpkgs.localSystem = {
+  #    gcc.arch = "znver3";
+  #    gcc.tune = "znver3";
+  #    system = "x86_64-linux";
+  #  };
 }

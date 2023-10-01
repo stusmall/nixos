@@ -30,14 +30,15 @@
           digest = "sha256";
           value = "GP8Knf7qBae+aIfythytMbYnL+yowaWVeD6MoLHkVRg=";
         }];
-      } {
-        address_data = "1.1.1.2";
-        tls_auth_name = "security.cloudflare-dns.com";
-        tls_pubkey_pinset = [{
-          digest = "sha256";
-          value = "GP8Knf7qBae+aIfythytMbYnL+yowaWVeD6MoLHkVRg=";
+      }
+        {
+          address_data = "1.1.1.2";
+          tls_auth_name = "security.cloudflare-dns.com";
+          tls_pubkey_pinset = [{
+            digest = "sha256";
+            value = "GP8Knf7qBae+aIfythytMbYnL+yowaWVeD6MoLHkVRg=";
+          }];
         }];
-      }];
     };
   };
 
@@ -101,7 +102,7 @@
           operand = "dest.ip";
           sensitive = false;
           data = "^(127\\.0\\.0\\.1|::1)$";
-          list = [];
+          list = [ ];
         };
       };
       rule-001-avahi-ipv4 = {
@@ -117,7 +118,7 @@
               type = "simple";
               operand = "process.path";
               sensitive = false;
-              data =  "${lib.getBin pkgs.avahi}/bin/avahi-daemon";
+              data = "${lib.getBin pkgs.avahi}/bin/avahi-daemon";
             }
             {
               type = "network";
@@ -140,13 +141,14 @@
               type = "simple";
               operand = "process.path";
               sensitive = false;
-              data =  "${lib.getBin pkgs.avahi}/bin/avahi-daemon";
+              data = "${lib.getBin pkgs.avahi}/bin/avahi-daemon";
             }
             {
               type = "simple";
               operand = "dest.ip";
               data = "ff02::fb";
-            }];
+            }
+          ];
         };
       };
       rule-003-ntp = {
@@ -159,7 +161,7 @@
           operand = "list";
           list = [
             {
-              type ="simple";
+              type = "simple";
               sensitive = false;
               operand = "process.path";
               data = "${lib.getBin pkgs.systemd}/lib/systemd/systemd-timesyncd";
@@ -312,7 +314,7 @@
       };
     };
   };
-  
+
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -325,7 +327,7 @@
 
   # Define the wireshark group and set dumpcap with it.  This allows us to capture as nonroot
   # The wireshark package won't do this for us
-  users.groups.wireshark = {};
+  users.groups.wireshark = { };
   security.wrappers.dumpcap = {
     source = "${pkgs.wireshark}/bin/dumpcap";
     permissions = "u+xs,g+x";
@@ -343,7 +345,7 @@
 
   # Enable auto-upgrades.  By default it is run daily
   system.autoUpgrade.enable = true;
-  
+
   environment.systemPackages = with pkgs; [
     home-manager
     gnomeExtensions.appindicator

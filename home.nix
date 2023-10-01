@@ -39,27 +39,26 @@
     pkgs.zellij
   ];
 
-  home.sessionVariables = {
-  };
+  home.sessionVariables = { };
 
   programs.alacritty = {
     enable = true;
     settings = {
       window = {
-      	# This along with explicitly setting the cursor theme helps fix my issue where I couldn't grab the side of the window to resize
+        # This along with explicitly setting the cursor theme helps fix my issue where I couldn't grab the side of the window to resize
         dynamic_padding = true;
       };
     };
   };
-  
+
   programs.bash = {
     enable = true;
     bashrcExtra = ''
-    # Always open terminal in zellij session
-    eval "$(zellij setup --generate-auto-start bash)"
-    # Needed to use yubkiey for SSH key
-    export GPG_TTY="$(tty)"
-    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+      # Always open terminal in zellij session
+      eval "$(zellij setup --generate-auto-start bash)"
+      # Needed to use yubkiey for SSH key
+      export GPG_TTY="$(tty)"
+      export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
     '';
   };
 
@@ -91,9 +90,9 @@
     enable = true;
     defaultEditor = true;
     extraConfig = ''
-set number
-set nobackup nowritebackup noswapfile
-'';
+      set number
+      set nobackup nowritebackup noswapfile
+    '';
   };
   programs.zellij.settings = {
     enable = true;
@@ -114,8 +113,8 @@ set nobackup nowritebackup noswapfile
       show-battery-percentage = true;
     };
     "org/gnome/shell" = {
-      enabled-extensions = ["appindicatorsupport@rgcjonas.gmail.com" "dash-to-dock@micxgx.gmail.com"];
-      favorite-apps = ["Alacritty.desktop" "firefox.desktop" "clion.desktop" "pycharm-professional.desktop"];
+      enabled-extensions = [ "appindicatorsupport@rgcjonas.gmail.com" "dash-to-dock@micxgx.gmail.com" ];
+      favorite-apps = [ "Alacritty.desktop" "firefox.desktop" "clion.desktop" "pycharm-professional.desktop" ];
     };
     "org/gnome/shell/extensions/dash-to-dock" = {
       apply-custom-theme = true;
@@ -124,7 +123,7 @@ set nobackup nowritebackup noswapfile
 
   # Set start up applications
   # shitty version of this https://github.com/nix-community/home-manager/issues/3447#issuecomment-1328294558
-   home.file.".config/autostart/opensnitch_ui.desktop".source = (pkgs.opensnitch-ui + "/share/applications/opensnitch_ui.desktop");
+  home.file.".config/autostart/opensnitch_ui.desktop".source = (pkgs.opensnitch-ui + "/share/applications/opensnitch_ui.desktop");
 
 }
 
