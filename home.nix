@@ -13,7 +13,6 @@
   home.packages = [
     pkgs.alacritty
     pkgs.dig
-    pkgs.discord
     pkgs.docker
     pkgs.firefox
     pkgs.gnomeExtensions.dash-to-dock
@@ -30,14 +29,13 @@
     pkgs.meld
     pkgs.nmap
     pkgs.signal-desktop
-    pkgs.slack
     pkgs.spotify
-    pkgs.steam
     pkgs.tokei
     pkgs.tree
     pkgs.usbutils
     pkgs.vscode
     pkgs.wireshark
+    pkgs.whois
     pkgs.zellij
   ];
 

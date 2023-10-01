@@ -4,6 +4,7 @@
   imports =
     [
       <home-manager/nixos>
+      # This needs to link to the the absolute path and not a relative path.   We don't know which hardware config the bootstrap script picked so we need to use that symlink
       /etc/nixos/hardware-configuration.nix
     ];
 
@@ -148,7 +149,7 @@
             }];
         };
       };
-      rule-004-ntp = {
+      rule-003-ntp = {
         name = "Allow NTP";
         enabled = true;
         action = "allow";
@@ -195,7 +196,108 @@
           ];
         };
       };
-
+      rule-005-nix-update = {
+        name = "Allow Nix";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.nix}/bin/nix";
+            }
+            {
+              type = "regexp";
+              operand = "dest.host";
+              sensitive = false;
+              data = "^(github\.com|nixos\.org|.*nixos\.org)$";
+            }
+          ];
+        };
+      };
+      rule-006-signal = {
+        name = "Allow Signal";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.signal-desktop}/lib/Signal/signal-desktop";
+            }
+            {
+              type = "regexp";
+              operand = "dest.host";
+              sensitive = false;
+              data = "^.*signal\.org$";
+            }
+          ];
+        };
+      };
+      rule-007-NetworkManager = {
+        name = "Allow NetworkManager";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.networkmanager}/bin/NetworkManager";
+            }
+            {
+              type = "simple";
+              operand = "dest.port";
+              sensitive = false;
+              data = "67";
+            }
+            {
+              type = "simple";
+              operand = "protocol";
+              sensitive = false;
+              data = "udp";
+            }
+          ];
+        };
+      };
+      rule-008-jetbrains = {
+        name = "Allow Jetbrains tools to phone home";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.jetbrains.jdk}/lib/openjdk/bin/java";
+            }
+            {
+              type = "regexp";
+              operand = "dest.host";
+              sensitive = false;
+              data = "^.*jetbrains\.com$";
+            }
+          ];
+        };
+      };
       rule-999-firefox = {
         name = "Allow Firefox";
         enabled = true;
@@ -218,7 +320,7 @@
   users.users.stusmall = {
     isNormalUser = true;
     description = "Stuart Small";
-    extraGroups = [ "networkmanager" "wheel" "wireshark" ];
+    extraGroups = [ "networkmanager" "wheel" ];
   };
 
   # Make nixos-rebuild invoke home-manager
@@ -255,25 +357,6 @@
     hitori
     atomix
   ]);
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
