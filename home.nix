@@ -10,33 +10,33 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  home.packages = [
-    pkgs.alacritty
-    pkgs.dig
-    pkgs.docker
-    pkgs.firefox
-    pkgs.gnomeExtensions.dash-to-dock
-    pkgs.gnupg
-    pkgs.htop
-    pkgs.jetbrains.clion
-    pkgs.jetbrains.pycharm-professional
-    pkgs.jq
-    pkgs.kubectl
-    pkgs.opensnitch-ui
-    pkgs.openssl
-    pkgs.pciutils
-    pkgs.ripgrep
-    pkgs.meld
-    pkgs.nixpkgs-fmt
-    pkgs.nmap
-    pkgs.signal-desktop
-    pkgs.spotify
-    pkgs.tokei
-    pkgs.tree
-    pkgs.usbutils
-    pkgs.wireshark
-    pkgs.whois
-    pkgs.zellij
+  home.packages = with pkgs; [
+    alacritty
+    dig
+    firefox
+    gnomeExtensions.appindicator
+    gnomeExtensions.dash-to-dock
+    gnupg
+    htop
+    jetbrains.clion
+    jetbrains.pycharm-professional
+    jq
+    kubectl
+    opensnitch-ui
+    openssl
+    pciutils
+    ripgrep
+    meld
+    nixpkgs-fmt
+    nmap
+    signal-desktop
+    spotify
+    tokei
+    tree
+    usbutils
+    wireshark
+    whois
+    zellij
   ];
 
   home.sessionVariables = { };
@@ -94,6 +94,7 @@
       set nobackup nowritebackup noswapfile
     '';
   };
+  # TODO: I think this is incorrect
   programs.zellij.settings = {
     enable = true;
     settings = {
@@ -113,7 +114,10 @@
       show-battery-percentage = true;
     };
     "org/gnome/shell" = {
-      enabled-extensions = [ "appindicatorsupport@rgcjonas.gmail.com" "dash-to-dock@micxgx.gmail.com" ];
+      enabled-extensions = [
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "dash-to-dock@micxgx.gmail.com"
+      ];
       favorite-apps = [ "Alacritty.desktop" "firefox.desktop" "clion.desktop" "pycharm-professional.desktop" ];
     };
     "org/gnome/shell/extensions/dash-to-dock" = {
