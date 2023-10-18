@@ -12,7 +12,6 @@
 
   home.packages = [
     pkgs.alacritty
-    pkgs.cargo
     pkgs.dig
     pkgs.docker
     pkgs.firefox
@@ -30,13 +29,11 @@
     pkgs.meld
     pkgs.nixpkgs-fmt
     pkgs.nmap
-    pkgs.shellcheck
     pkgs.signal-desktop
     pkgs.spotify
     pkgs.tokei
     pkgs.tree
     pkgs.usbutils
-    pkgs.vscode
     pkgs.wireshark
     pkgs.whois
     pkgs.zellij

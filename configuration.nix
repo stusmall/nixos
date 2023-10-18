@@ -6,7 +6,9 @@
       <home-manager/nixos>
       # This needs to link to the the absolute path and not a relative path.   We don't know which hardware config the bootstrap script picked so we need to use that symlink
       /etc/nixos/hardware-configuration.nix
+      ./modules/antivirus.nix
     ];
+
 
   # Use the newest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -16,6 +18,7 @@
 
   # Don't let networkmanager manage DNS settings.  We only want the DNS servers declared here
   networking.networkmanager.dns = "none";
+
 
   # Enabled DoH
   # pkgs.stubby.passthru.settingsExample is the example toml from the root of the github repo.  It has a series of opinionated, safe defaults
@@ -284,7 +287,7 @@
         };
       };
       rule-008-jetbrains = {
-        name = "Allow Jetbrains tools to phone home";
+        name = "Allow Jetbrains tools";
         enabled = true;
         action = "allow";
         duration = "always";
@@ -302,7 +305,55 @@
               type = "regexp";
               operand = "dest.host";
               sensitive = false;
-              data = "^.*jetbrains\.com$";
+              data = "^(.*jetbrains\.com|github\.com)$";
+            }
+          ];
+        };
+      };
+      rule-009-gnome-calc = {
+        name = "Allow Gnome Calculator to fetch currency conversion rates";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.gnome.gnome-calculator}/bin/.gnome-calculator-wrapped";
+            }
+            {
+              type = "regexp";
+              operand = "dest.host";
+              sensitive = false;
+              data = "^(www\.ecb\.europa\.eu|www\.imf\.org)$";
+            }
+          ];
+        };
+      };
+      rule-010-freshclam = {
+        name = "Allow clamav to update signatures";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.clamav}/bin/freshclam";
+            }
+            {
+              type = "simple";
+              operand = "dest.host";
+              sensitive = false;
+              data = "database.clamav.net";
             }
           ];
         };
@@ -355,8 +406,8 @@
 
   environment.systemPackages = with pkgs; [
     home-manager
-    gnomeExtensions.appindicator
-    gnomeExtensions.dash-to-dock
+    gnomeExtensions.appindicator # TODO: remove
+    gnomeExtensions.dash-to-dock #TODO: remove
     vim
   ];
 
@@ -365,8 +416,11 @@
     gnome-tour
   ]) ++ (with pkgs.gnome; [
     cheese
+    gnome-calendar
+    gnome-maps
     gnome-music
     gnome-terminal
+    gnome-weather
     epiphany
     geary
     gnome-characters
@@ -375,7 +429,10 @@
     iagno
     hitori
     atomix
+    yelp
   ]);
+
+
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
