@@ -160,7 +160,7 @@
               type = "regexp";
               operand = "dest.host";
               sensitive = false;
-              data = "^.*signal\.org$";
+              data = "^([a-z0-9|-]+\.)*signal\.org$";
             }
           ];
         };
@@ -214,7 +214,7 @@
               type = "regexp";
               operand = "dest.host";
               sensitive = false;
-              data = "^(.*jetbrains\.com|github\.com)$";
+              data = "^(([a-z0-9|-]+\.)jetbrains\.com|github\.com|([a-z0-9|-]+\.)schemastore.org)$";
             }
           ];
         };
