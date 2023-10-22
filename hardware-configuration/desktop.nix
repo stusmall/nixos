@@ -15,18 +15,24 @@
   boot.extraModulePackages = [ ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/nvme0n1";
+  boot.loader.grub.useOSProber = true;
+
+
+  # Enable grub cryptodisk
+  boot.loader.grub.enableCryptodisk = true;
 
   networking.hostName = "nixos"; # Define your hostname.
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/5edc3e6f-63a9-4cb7-94e4-d7aec2b7db7c";
+      device = "/dev/disk/by-uuid/d644e50e-beed-4e7b-948d-445d1edfd2f4";
       fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."luks-132a94c8-0ac9-4725-a3c3-f42ef3c0fab5".device = "/dev/disk/by-uuid/132a94c8-0ac9-4725-a3c3-f42ef3c0fab5";
+  boot.initrd.luks.devices."luks-90b4fb15-0a20-4c5e-8d86-f50798ea7d1b".keyFile = "/crypto_keyfile.bin";
+  boot.initrd.luks.devices."luks-90b4fb15-0a20-4c5e-8d86-f50798ea7d1b".device = "/dev/disk/by-uuid/90b4fb15-0a20-4c5e-8d86-f50798ea7d1b";
 
   # Setup keyfile
   boot.initrd.secrets = {
@@ -49,7 +55,7 @@
   # networking.interfaces.enp7s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp6s0.useDHCP = lib.mkDefault true;
 
-  #nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   #nixpkgs.hostPlatform = {
   # system = "x86_64-linux";
