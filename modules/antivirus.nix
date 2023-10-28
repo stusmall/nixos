@@ -45,7 +45,6 @@ in
 
   systemd.services.av-all-scan = {
     description = "scan all directories";
-    after = [ "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
       ExecStart = ''

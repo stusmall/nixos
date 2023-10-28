@@ -73,7 +73,7 @@
   users.users.stusmall = {
     isNormalUser = true;
     description = "Stuart Small";
-    extraGroups = [ "networkmanager" "wireshark" "wheel" ];
+    extraGroups = [ "docker" "networkmanager" "wireshark" "wheel" ];
   };
 
   # Define the wireshark group and set dumpcap with it.  This allows us to capture as nonroot
@@ -122,6 +122,8 @@
     atomix
     yelp
   ]);
+
+  virtualisation.docker.enable = true;
 
 
 

@@ -12,7 +12,9 @@
 
   home.packages = with pkgs; [
     alacritty
+    chromium
     dig
+    docker-machine
     firefox
     gnomeExtensions.appindicator
     gnomeExtensions.dash-to-dock
@@ -21,6 +23,7 @@
     jetbrains.clion
     jetbrains.pycharm-professional
     jq
+    kooha
     kubectl
     opensnitch-ui
     openssl
@@ -36,7 +39,9 @@
     usbutils
     wireshark
     whois
+    vlc
     zellij
+    zoom-us
   ];
 
   home.sessionVariables = { };
@@ -94,8 +99,8 @@
       set nobackup nowritebackup noswapfile
     '';
   };
-  # TODO: I think this is incorrect
-  programs.zellij.settings = {
+
+  programs.zellij = {
     enable = true;
     settings = {
       ui = {
