@@ -2,7 +2,7 @@
 {
   services.opensnitch = {
     enable = true;
-    settings.DefaultAction = "deny";
+    settings.DefaultAction = "allow";
     rules = {
       rule-000-localhost = {
         name = "Allow all localhost";

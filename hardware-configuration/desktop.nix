@@ -23,6 +23,9 @@
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/af1c6485-22a5-49d6-9aa4-fdd51c06e75d";
       fsType = "ext4";
+      options = [
+        "commit=300"
+      ];
     };
 
   boot.initrd.luks.devices."luks-1f5300da-10e9-4730-b25b-9eed41ac33d3".device = "/dev/disk/by-uuid/1f5300da-10e9-4730-b25b-9eed41ac33d3";

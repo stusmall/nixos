@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 
 
@@ -22,17 +22,21 @@
     htop
     jetbrains.clion
     jetbrains.pycharm-professional
+    jetbrains.rust-rover
     jq
     kooha
     kubectl
+    libreoffice-fresh
     opensnitch-ui
     openssl
     pciutils
     ripgrep
     meld
+    nil
     nixpkgs-fmt
     nmap
     signal-desktop
+    slack
     spotify
     tokei
     tree
@@ -82,13 +86,20 @@
     userEmail = "stuart.alan.small@gmail.com";
     extraConfig = {
       core = {
-        editor = "vim";
+        editor = "hx";
         compression = 9;
       };
       pull = {
         rebase = true;
       };
+      push = {
+        autoSetupRemote = true;
+      };
     };
+  };
+
+  programs.helix = {
+    enable = true;
   };
 
   programs.vim = {

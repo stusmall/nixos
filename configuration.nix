@@ -94,8 +94,15 @@
 
   home-manager.useGlobalPkgs = true;
 
-  # Enable auto-upgrades.  By default it is run daily
-  system.autoUpgrade.enable = true;
+  # Enable auto-upgrades.
+  system.autoUpgrade = {
+    enable = true;
+    # Run daily
+    dates = "daily";
+    # Build the new config and make it the default, but don't switch yet.  This will be picked up on reboot.  This helps
+    # prevent issues with OpenSnitch configs not well matching the state of the system.
+    operation = "boot";
+  };
 
   environment.systemPackages = with pkgs; [
     home-manager
@@ -124,6 +131,8 @@
   ]);
 
   virtualisation.docker.enable = true;
+
+  services.tailscale.enable = true;
 
 
 
