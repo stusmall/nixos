@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 
 
@@ -48,6 +48,21 @@
     zoom-us
   ];
 
+  nixpkgs.overlays = [
+    (final: previous : {
+      jetbrains = previous.jetbrains // {
+        rust-rover = previous.jetbrains.rust-rover.overrideDerivation (_: {
+          name = "rust-rover";
+          version = "2023.3 EAP";
+          src = previous.fetchurl {
+            url = "https://download.jetbrains.com/rustrover/RustRover-233.11799.306.tar.gz";
+            sha256 = "Wc1frHELFT76uUNBWUdRu1DNsd/10ikruAZ+yHCFrTU=";
+          };
+        });
+      };
+    })
+  ];
+
   home.sessionVariables = { };
 
   programs.alacritty = {
@@ -63,6 +78,8 @@
   programs.bash = {
     enable = true;
     bashrcExtra = ''
+      # Include secrets managed outside nix
+      source $HOME/.secrets/*
       # Always open terminal in zellij session
       eval "$(zellij setup --generate-auto-start bash)"
       # Needed to use yubkiey for SSH key
@@ -144,6 +161,9 @@
   # Set start up applications
   # shitty version of this https://github.com/nix-community/home-manager/issues/3447#issuecomment-1328294558
   home.file.".config/autostart/opensnitch_ui.desktop".source = (pkgs.opensnitch-ui + "/share/applications/opensnitch_ui.desktop");
+
+  # maintain a folder to include secrets to be pulled into global envars that we don't want managed by nix
+  home.activation.name = lib.hm.dag.entryAfter [ "writeBoundary"]  "mkdir -p ~/.secrets";
 
 }
 

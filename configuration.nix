@@ -92,8 +92,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  home-manager.useGlobalPkgs = true;
-
   # Enable auto-upgrades.
   system.autoUpgrade = {
     enable = true;
