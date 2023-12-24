@@ -53,4 +53,31 @@ in
     };
   };
 
+
+  services.opensnitch.rules = {
+    rule-500-freshclam = {
+      name = "Allow clamav to update signatures";
+      enabled = true;
+      action = "allow";
+      duration = "always";
+      operator = {
+        type = "list";
+        operand = "list";
+        list = [
+          {
+            type = "simple";
+            sensitive = false;
+            operand = "process.path";
+            data = "${lib.getBin pkgs.clamav}/bin/freshclam";
+          }
+          {
+            type = "simple";
+            operand = "dest.host";
+            sensitive = false;
+            data = "database.clamav.net";
+          }
+        ];
+      };
+    };
+  };
 }

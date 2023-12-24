@@ -14,20 +14,13 @@
     alacritty
     chromium
     dig
-    docker-machine
     firefox
-    gnomeExtensions.appindicator
-    gnomeExtensions.dash-to-dock
     gnupg
     htop
-    jetbrains.clion
-    jetbrains.pycharm-professional
-    jetbrains.rust-rover
     jq
     kooha
     kubectl
     libreoffice-fresh
-    opensnitch-ui
     openssl
     pciutils
     ripgrep
@@ -35,32 +28,12 @@
     nil
     nixpkgs-fmt
     nmap
-    signal-desktop
-    slack
-    spotify
     tokei
     tree
     usbutils
-    wireshark
     whois
     vlc
     zellij
-    zoom-us
-  ];
-
-  nixpkgs.overlays = [
-    (final: previous : {
-      jetbrains = previous.jetbrains // {
-        rust-rover = previous.jetbrains.rust-rover.overrideDerivation (_: {
-          name = "rust-rover";
-          version = "2023.3 EAP";
-          src = previous.fetchurl {
-            url = "https://download.jetbrains.com/rustrover/RustRover-233.11799.306.tar.gz";
-            sha256 = "Wc1frHELFT76uUNBWUdRu1DNsd/10ikruAZ+yHCFrTU=";
-          };
-        });
-      };
-    })
   ];
 
   home.sessionVariables = { };
@@ -146,24 +119,44 @@
       cursor-theme = "Adwaita";
       show-battery-percentage = true;
     };
+    "org/gnome/desktop/screensaver" = {
+      lock-enabled = true;
+    };
+    # TODO: verify
+    # Screen blanks after 15 minutes
+    "org/gnome/desktop/session" = {
+      idle-delay = 900;
+    };
+    "org/gnome/desktop/notifications" = {
+      show-in-lock-screen = false;
+    };
+    # TODO: verify
+    # Suspend after 15 minutes
+    "org/gnome/settings-daemon/plugins/power" = {
+      sleep-inactive-ac-timeout = 900;
+    };
     "org/gnome/shell" = {
       enabled-extensions = [
         "appindicatorsupport@rgcjonas.gmail.com"
         "dash-to-dock@micxgx.gmail.com"
       ];
-      favorite-apps = [ "Alacritty.desktop" "firefox.desktop" "clion.desktop" "pycharm-professional.desktop" ];
+      favorite-apps = [
+        "Alacritty.desktop"
+        "firefox.desktop"
+        "rust-rover.desktop"
+        "pycharm-professional.desktop"
+        "signal-desktop.desktop"
+      ];
     };
     "org/gnome/shell/extensions/dash-to-dock" = {
       apply-custom-theme = true;
     };
   };
 
-  # Set start up applications
-  # shitty version of this https://github.com/nix-community/home-manager/issues/3447#issuecomment-1328294558
-  home.file.".config/autostart/opensnitch_ui.desktop".source = (pkgs.opensnitch-ui + "/share/applications/opensnitch_ui.desktop");
 
   # maintain a folder to include secrets to be pulled into global envars that we don't want managed by nix
-  home.activation.name = lib.hm.dag.entryAfter [ "writeBoundary"]  "mkdir -p ~/.secrets";
+  home.activation.name = lib.hm.dag.entryAfter [ "writeBoundary" ] "mkdir -p ~/.secrets";
+
 
 }
 

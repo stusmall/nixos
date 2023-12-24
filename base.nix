@@ -1,19 +1,20 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports =
     [
       <home-manager/nixos>
-      # This needs to link to the the absolute path and not a relative path.   We don't know which hardware config the bootstrap script picked so we need to use that symlink
-      /etc/nixos/hardware-configuration.nix
       ./modules/antivirus.nix
-      ./modules/dns.nix
+      ./modules/docker.nix
+      ./modules/gnome.nix
+      ./modules/jetbrains.nix
       ./modules/opensnitch.nix
+      ./modules/spotify.nix
+      ./modules/wireshark.nix
     ];
-
-
   # Use the newest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -40,10 +41,6 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
@@ -64,30 +61,15 @@
     pulse.enable = true;
   };
 
-
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.stusmall = {
     isNormalUser = true;
     description = "Stuart Small";
-    extraGroups = [ "docker" "networkmanager" "wireshark" "wheel" ];
-  };
-
-  # Define the wireshark group and set dumpcap with it.  This allows us to capture as nonroot
-  # The wireshark package won't do this for us
-  users.groups.wireshark = { };
-  security.wrappers.dumpcap = {
-    source = "${pkgs.wireshark}/bin/dumpcap";
-    permissions = "u+xs,g+x";
-    owner = "root";
-    group = "wireshark";
+    extraGroups = [ "networkmanager" "wheel" ];
   };
 
   # Make nixos-rebuild invoke home-manager
   home-manager.users.stusmall = import /home/stusmall/.config/home-manager/home.nix;
+
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -102,36 +84,11 @@
     operation = "boot";
   };
 
+
   environment.systemPackages = with pkgs; [
+    helix
     home-manager
-    vim
   ];
-
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-  ]) ++ (with pkgs.gnome; [
-    cheese
-    gnome-calendar
-    gnome-maps
-    gnome-music
-    gnome-terminal
-    gnome-weather
-    epiphany
-    geary
-    gnome-characters
-    totem
-    tali
-    iagno
-    hitori
-    atomix
-    yelp
-  ]);
-
-  virtualisation.docker.enable = true;
-
-  services.tailscale.enable = true;
-
 
 
   # This value determines the NixOS release from which the default
@@ -142,4 +99,8 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
+
+
 }
+
+

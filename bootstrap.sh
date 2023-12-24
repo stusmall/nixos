@@ -11,13 +11,14 @@ MACHINES=("Desktop" "New System" "Exit")
 select MACHINE in "${MACHINES[@]}"; do
   case $MACHINE in
     "Desktop")
-      echo "Setting hardware config symlink"
+      echo "Setting configuration.nix symlink"
+      sudo rm -f /etc/nixos/configuration.nix || true
       sudo rm -f /etc/nixos/hardware-configuration.nix || true
-      sudo ln -s "$REPO_ROOT"/hardware-configuration/desktop.nix /etc/nixos/hardware-configuration.nix
+      sudo ln -s "$REPO_ROOT"/desktop.nix /etc/nixos/configuration.nix
       break
       ;;
     "New System")
-      echo "Skipping setting up a hardware config symlink"
+      echo "Skipping setting up hardware/profile config symlinks"
       break
       ;;
     "Exit")
@@ -28,20 +29,12 @@ select MACHINE in "${MACHINES[@]}"; do
 esac
 done
 
-echo "Setting home-manager symlink"
-mkdir -p /home/stusmall/.config/home-manager/
-rm -f /home/stusmall/.config/home-manager/home.nix || true
-ln -s "$REPO_ROOT"/home.nix /home/stusmall/.config/home-manager/home.nix
-
-echo "Setting configuration symlink"
-sudo rm -f /etc/nixos/configuration.nix || true
-sudo ln -s "$REPO_ROOT"/configuration.nix /etc/nixos/configuration.nix
-
 echo "Setting up channels"
-sudo nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.05.tar.gz home-manager
+sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos
+sudo nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 sudo nix-channel --update
 
 echo "Rebuilding the OS"
-sudo nixos-rebuild switch
+sudo nixos-rebuild boot
 
 echo "All done!"
