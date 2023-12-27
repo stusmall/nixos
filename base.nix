@@ -68,7 +68,7 @@
   };
 
   # Make nixos-rebuild invoke home-manager
-  home-manager.users.stusmall = import /home/stusmall/.config/home-manager/home.nix;
+  home-manager.users.stusmall = import ./home.nix;
 
 
   # Allow unfree packages

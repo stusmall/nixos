@@ -92,15 +92,6 @@
     enable = true;
   };
 
-  programs.vim = {
-    enable = true;
-    defaultEditor = true;
-    extraConfig = ''
-      set number
-      set nobackup nowritebackup noswapfile
-    '';
-  };
-
   programs.zellij = {
     enable = true;
     settings = {
