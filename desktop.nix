@@ -25,7 +25,7 @@
       device = "/dev/disk/by-uuid/af1c6485-22a5-49d6-9aa4-fdd51c06e75d";
       fsType = "ext4";
       options = [
-        "commit=300"
+        "commit=300,noatime"
       ];
     };
 

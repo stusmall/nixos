@@ -9,6 +9,7 @@
       ./modules/gnome.nix
       ./modules/jetbrains.nix
       ./modules/opensnitch.nix
+      ./modules/signal.nix
       ./modules/spotify.nix
       ./modules/wireshark.nix
     ];
