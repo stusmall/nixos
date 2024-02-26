@@ -79,6 +79,9 @@
         editor = "hx";
         compression = 9;
       };
+      init = {
+        defaultBranch = "main";
+      };
       pull = {
         rebase = true;
       };

@@ -6,6 +6,8 @@
       (modulesPath + "/installer/scan/not-detected.nix")
       ./base.nix
       ./modules/encrypted-dns.nix
+      ./modules/rust.nix
+      ./modules/steam.nix
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
@@ -79,4 +81,8 @@
       nvidiaBusId = "PCI:1:0:0";
     };
   };
+
+  # Enable options in Gnome shell to launch an app on the discrete graphics card
+  # TODO: This package is broken building upstream.  Renable once it is fixed
+  # services.switcherooControl.enable = true;
 }
