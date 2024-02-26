@@ -9,6 +9,7 @@
       ./modules/gnome.nix
       ./modules/jetbrains.nix
       ./modules/opensnitch.nix
+      ./modules/signal.nix
       ./modules/spotify.nix
       ./modules/wireshark.nix
     ];
@@ -42,9 +43,9 @@
   services.xserver.enable = true;
 
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "";
   };
 
   # Enable CUPS to print documents.
@@ -60,6 +61,9 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  # Leave bluetooth off on boot, the user can enable if needed
+  hardware.bluetooth.powerOnBoot = false;
 
   users.users.stusmall = {
     isNormalUser = true;
