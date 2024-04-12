@@ -1,8 +1,13 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
+let
+  unstable = import
+    (builtins.fetchTarball "https://github.com/nixos/nixpkgs/tarball/3a5eb38af0215cd697a78c25ececdab111f21388")
+    { config = config.nixpkgs.config; };
+in
 {
   environment.systemPackages = with pkgs.jetbrains; [
     pycharm-professional
-    rust-rover
+    unstable.jetbrains.rust-rover
   ];
 
   services.opensnitch.rules = {
