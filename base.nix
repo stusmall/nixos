@@ -16,6 +16,9 @@
   # Use the newest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  # Set a limit on the number of generations to include in boot
+  boot.loader.systemd-boot.configurationLimit = 20;
+
 
   # Enable networking
   networking.networkmanager.enable = true;
