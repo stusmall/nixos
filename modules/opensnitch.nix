@@ -11,7 +11,7 @@
 
   # A list of general rules needed no matter how the system is configured
   services.opensnitch = {
-    enable = true;
+    enable = false;
     settings.DefaultAction = "deny";
     rules = {
       rule-000-firefox = {

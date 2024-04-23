@@ -9,12 +9,11 @@
       ./modules/gnome.nix
       ./modules/jetbrains.nix
       ./modules/opensnitch.nix
+      ./modules/rust.nix
       ./modules/signal.nix
       ./modules/spotify.nix
       ./modules/wireshark.nix
     ];
-  # Use the newest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Set a limit on the number of generations to include in boot
   boot.loader.systemd-boot.configurationLimit = 20;
