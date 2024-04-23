@@ -6,7 +6,6 @@
       (modulesPath + "/installer/scan/not-detected.nix")
       ./base.nix
       ./modules/encrypted-dns.nix
-      ./modules/rust.nix
       ./modules/steam.nix
     ];
 
