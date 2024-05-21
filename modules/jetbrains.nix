@@ -1,9 +1,6 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 let
-  url = import ../unstable_url.nix;
-  unstable = import
-    (builtins.fetchTarball url)
-    { config = config.nixpkgs.config; };
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
 in
 {
   environment.systemPackages = with pkgs.jetbrains; [

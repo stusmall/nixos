@@ -11,12 +11,13 @@
       ./modules/opensnitch.nix
       ./modules/rust.nix
       ./modules/signal.nix
-      ./modules/spotify.nix
       ./modules/wireshark.nix
     ];
 
   # Set a limit on the number of generations to include in boot
   boot.loader.systemd-boot.configurationLimit = 20;
+
+  boot.tmp.cleanOnBoot = true;
 
 
   # Enable networking
@@ -43,6 +44,8 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+
+  services.pcscd.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
