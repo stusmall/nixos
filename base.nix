@@ -17,6 +17,7 @@
   # Set a limit on the number of generations to include in boot
   boot.loader.systemd-boot.configurationLimit = 20;
 
+  # clean tmp directory on boot.  Otherwise this fills up overtime and causes issues
   boot.tmp.cleanOnBoot = true;
 
 
@@ -92,6 +93,9 @@
     # prevent issues with OpenSnitch configs not well matching the state of the system.
     operation = "boot";
   };
+
+  # Enable udev settings for yubikey personalization
+  services.udev.packages = [ pkgs.yubikey-personalization ];
 
 
   environment.systemPackages = with pkgs; [

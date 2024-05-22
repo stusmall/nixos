@@ -38,10 +38,11 @@ done
 
 echo "Setting up channels"
 sudo nix-channel --add https://nixos.org/channels/nixos-23.11 nixos
+sudo nix-channel --add https://nixos.org/channels/nixos-unstable nixos-unstable
 sudo nix-channel --add https://github.com/nix-community/home-manager/archive/release-23.11.tar.gz home-manager
 sudo nix-channel --update
 
 echo "Rebuilding the OS"
 sudo nixos-rebuild boot
 
-echo "All done!"
+echo "All done! Reboot to use updated config"
