@@ -16,16 +16,17 @@
         operand = "list";
         list = [
           {
-            type = "regex";
+            type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = "^/home/stusmall/.rustup/toolchains/*/bin/cargo$";
+            data = "^/home/stusmall/.rustup/toolchains/(.*)/bin/cargo$";
           }
           {
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
             data = "^(([a-z0-9|-]+\.)*crates\.io)$";
+            operand = "process.path";
           }
         ];
       };
