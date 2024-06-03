@@ -25,8 +25,7 @@
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^(([a-z0-9|-]+\.)*crates\.io)$";
-            operand = "process.path";
+            data = "^(([a-z0-9|-]+\.)*crates\.io)|(([a-z0-9|-]+\.)*github\.com)$";
           }
         ];
       };
