@@ -46,6 +46,7 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
+  # Needed for smartcard management and the yubikey rust crate
   services.pcscd.enable = true;
 
   # Configure keymap in X11
@@ -104,6 +105,21 @@
   ];
 
 
+  # Set up auto-cpufreq for better power management.
+  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.settings = {
+    battery = {
+      governor = "powersave";
+      turbo = "never";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+  };
+  # This is the service that lets you pick power profiles in the gnome UI.  It conflicts with auto-cpufreq
+  services.power-profiles-daemon.enable = false;
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
@@ -111,9 +127,6 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
-
-
 }
 
 
