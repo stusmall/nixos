@@ -82,6 +82,6 @@
   };
 
   # Enable options in Gnome shell to launch an app on the discrete graphics card
-  # TODO: This package is broken building upstream.  Renable once it is fixed
-  # services.switcherooControl.enable = true;
+  services.switcherooControl.enable = true;
 }
+
