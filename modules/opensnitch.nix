@@ -169,6 +169,30 @@
           ];
         };
       };
+      rule-500-ssh-github = {
+        name = "Allow SSH to github";
+        enabled = true;
+        action = "allow";
+        duration = "always";
+        operator = {
+          type = "list";
+          operand = "list";
+          list = [
+            {
+              type = "simple";
+              sensitive = false;
+              operand = "process.path";
+              data = "${lib.getBin pkgs.openssh}/bin/ssh";
+            }
+            {
+              type = "simple";
+              operand = "dest.host";
+              sensitive = false;
+              data = "github.com";
+            }
+          ];
+        };
+      };
     };
   };
 }

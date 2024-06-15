@@ -19,7 +19,7 @@
             type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = "^/home/stusmall/.rustup/toolchains/(.*)/bin/cargo$";
+            data = "^(/home/stusmall/.rustup/toolchains/(.*)/bin/cargo)|(${lib.getBin pkgs.cargo}/bin/cargo)$";
           }
           {
             type = "regexp";
