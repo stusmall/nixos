@@ -1,11 +1,8 @@
 { pkgs, lib, ... }:
-let
-  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
-in
 {
   environment.systemPackages = with pkgs.jetbrains; [
     pycharm-professional
-    unstable.jetbrains.rust-rover
+    rust-rover
   ];
 
   services.opensnitch.rules = {
@@ -22,7 +19,7 @@ in
             type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = "^((${lib.getBin pkgs.jetbrains.jdk})|(${lib.getBin unstable.jetbrains.jdk}))/lib/openjdk/bin/java$";
+            data = "^(${lib.getBin pkgs.jetbrains.jdk})/lib/openjdk/bin/java$";
           }
           {
             type = "regexp";
