@@ -138,7 +138,6 @@
         "Alacritty.desktop"
         "firefox.desktop"
         "rust-rover.desktop"
-        "pycharm-professional.desktop"
         "signal-desktop.desktop"
       ];
     };

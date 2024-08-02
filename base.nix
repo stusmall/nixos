@@ -46,9 +46,6 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Needed for smartcard management and the yubikey rust crate
-  services.pcscd.enable = true;
-
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
@@ -119,6 +116,9 @@
   };
   # This is the service that lets you pick power profiles in the gnome UI.  It conflicts with auto-cpufreq
   services.power-profiles-daemon.enable = false;
+
+  # Enable zram
+  zramSwap.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
