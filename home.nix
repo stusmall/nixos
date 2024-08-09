@@ -51,14 +51,16 @@
   programs.bash = {
     enable = true;
     bashrcExtra = ''
-      # Include secrets managed outside nix
-      source $HOME/.secrets/*
       # Always open terminal in zellij session
       eval "$(zellij setup --generate-auto-start bash)"
       # Needed to use yubkiey for SSH key
       export GPG_TTY="$(tty)"
       export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
     '';
+  };
+
+  programs.direnv = {
+    enable = true;
   };
 
   services.gpg-agent = {
@@ -116,18 +118,19 @@
     "org/gnome/desktop/screensaver" = {
       lock-enabled = true;
     };
-    # TODO: verify
     # Screen blanks after 15 minutes
     "org/gnome/desktop/session" = {
-      idle-delay = 900;
+      idle-delay = lib.hm.gvariant.mkUint32 900;
     };
     "org/gnome/desktop/notifications" = {
       show-in-lock-screen = false;
     };
-    # TODO: verify
     # Suspend after 15 minutes
     "org/gnome/settings-daemon/plugins/power" = {
+      sleep-inactive-ac-type = "suspend";
       sleep-inactive-ac-timeout = 900;
+      sleep-inactive-battery-type = "suspend";
+      sleep-inactive-battery-timeout = 900;
     };
     "org/gnome/shell" = {
       enabled-extensions = [
@@ -145,11 +148,5 @@
       apply-custom-theme = true;
     };
   };
-
-
-  # maintain a folder to include secrets to be pulled into global envars that we don't want managed by nix
-  home.activation.name = lib.hm.dag.entryAfter [ "writeBoundary" ] "mkdir -p ~/.secrets";
-
-
 }
 

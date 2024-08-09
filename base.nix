@@ -92,6 +92,13 @@
     operation = "boot";
   };
 
+  # Limit the parallelism of nix rebuilds.  When left on the default it uses all available resources which can make the
+  # system unusable.
+  nix.settings = {
+    cores = 2;
+    max-jobs = 2;
+  };
+
   # Enable udev settings for yubikey personalization
   services.udev.packages = [ pkgs.yubikey-personalization ];
 
