@@ -3,6 +3,7 @@
   environment.systemPackages = with pkgs.jetbrains; [
     pycharm-professional
     rust-rover
+    webstorm
   ];
 
   services.opensnitch.rules = {
@@ -16,10 +17,10 @@
         operand = "list";
         list = [
           {
-            type = "regexp";
+            type = "simple";
             sensitive = false;
             operand = "process.path";
-            data = "^(${lib.getBin pkgs.jetbrains.jdk})/lib/openjdk/bin/java$";
+            data = "${lib.getBin pkgs.jetbrains.jdk})/lib/openjdk/bin/java";
           }
           {
             type = "regexp";

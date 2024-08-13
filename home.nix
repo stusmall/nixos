@@ -18,8 +18,6 @@
     gnupg
     htop
     jq
-    kooha
-    kubectl
     libreoffice-fresh
     openssl
     pciutils
@@ -141,6 +139,7 @@
         "Alacritty.desktop"
         "firefox.desktop"
         "rust-rover.desktop"
+        "webstorm.desktop"
         "signal-desktop.desktop"
       ];
     };
