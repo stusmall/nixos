@@ -5,7 +5,6 @@
     [
       <home-manager/nixos>
       ./modules/antivirus.nix
-      ./modules/docker.nix
       ./modules/gnome.nix
       ./modules/jetbrains.nix
       ./modules/opensnitch.nix
