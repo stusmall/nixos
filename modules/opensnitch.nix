@@ -14,18 +14,6 @@
     enable = true;
     settings.DefaultAction = "deny";
     rules = {
-      rule-000-firefox = {
-        name = "Allow Firefox";
-        enabled = true;
-        action = "allow";
-        duration = "always";
-        operator = {
-          type = "simple";
-          sensitive = false;
-          operand = "process.path";
-          data = "${lib.getBin pkgs.firefox}/lib/firefox/firefox";
-        };
-      };
       rule-000-localhost = {
         name = "Allow all localhost";
         enabled = true;

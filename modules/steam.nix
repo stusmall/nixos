@@ -3,6 +3,9 @@
   environment.systemPackages = with pkgs; [
     steam
   ];
+  programs.steam = {
+    remotePlay.openFirewall = true;
+  };
 
   services.opensnitch.rules = {
     rule-500-steam = {
@@ -24,7 +27,7 @@
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^(api.steampowered.com|([a-z0-9|-]+\.)*steamcontent.com|([a-z0-9|-]+\.)*steamstatic.com|([a-z0-9|-]+\.)*steamserver.net|steamcommunity.com|steamstore-a.akamaihd.net|([a-z0-9|-]+\.)*.steampowered.com)$";
+            data = "^(api.steampowered.com|([a-z0-9|-]+\.)*steamcontent.com|([a-z0-9|-]+\.)*steamstatic.com|([a-z0-9|-]+\.)*steamserver.net|steamcommunity.com|steamstore-a.akamaihd.net|steamuserimages-a.akamaihd.net|steamcommunity-a.akamaihd.net|([a-z0-9|-]+\.)*.steampowered.com|([a-z0-9|-]+\.)*.youtube.com)$";
           }
         ];
       };

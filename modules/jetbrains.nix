@@ -20,13 +20,13 @@
             type = "simple";
             sensitive = false;
             operand = "process.path";
-            data = "${lib.getBin pkgs.jetbrains.jdk})/lib/openjdk/bin/java";
+            data = "${lib.getBin pkgs.jetbrains.jdk}/lib/openjdk/bin/java";
           }
           {
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^(([a-z0-9|-]+\.)*jetbrains\.com|github\.com|([a-z0-9|-]+\.)*schemastore.org)$";
+            data = "^(([a-z0-9|-]+\.)*jetbrains\.com|github\.com|registry.npmjs.org|([a-z0-9|-]+\.)*schemastore.org)$";
           }
         ];
       };

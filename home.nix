@@ -1,7 +1,4 @@
 { lib, pkgs, ... }:
-
-
-
 {
   home.username = "stusmall";
   home.homeDirectory = "/home/stusmall";
@@ -14,7 +11,6 @@
     alacritty
     chromium
     dig
-    firefox
     gnupg
     htop
     jq
@@ -91,6 +87,7 @@
     };
   };
 
+
   programs.helix = {
     enable = true;
   };
@@ -145,6 +142,9 @@
     };
     "org/gnome/shell/extensions/dash-to-dock" = {
       apply-custom-theme = true;
+    };
+    "org/gnome/system/location" = {
+      enabled = false;
     };
   };
 }
