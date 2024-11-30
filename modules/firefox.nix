@@ -28,9 +28,9 @@ let
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/facebook-container/latest.xpi";
           installation_mode = "force_installed";
         };
-        # Impluse Blocker
-        "{3a7ab27c-6a20-4d24-9fda-5e38f8992556}" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/impulse-blocker/latest.xpi";
+        # LeechBlockNG
+        "leechblockng@proginosko.com" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/leechblock-ng/latest.xpi";
           installation_mode = "force_installed";
         };
         # ublock origin
