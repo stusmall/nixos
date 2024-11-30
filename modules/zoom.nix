@@ -16,7 +16,7 @@
         type = "simple";
         sensitive = false;
         operand = "process.path";
-        data = "${lib.getBin pkgs.zoom-us}opt/zoom/.zoom";
+        data = "${lib.getBin pkgs.zoom-us}/opt/zoom/.zoom";
       };
     };
   };
