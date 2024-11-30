@@ -9,15 +9,11 @@
   services.tailscale.enable = lib.mkForce true;
 
 
-
-  nix.extraOptions = ''
-    experimental-features = nix-command flakes
-  '';
-
   services.opensnitch.rules = {
-    rule-012-cargo = {
-      name = "Allow cargo";
-      enable = true;
+    # Since we have encrypted DNS disabled we should whitelist nsncd.  This is unfortunately a very broad whitelist
+    rule-100-dns = {
+      name = "Allow DNS from nsncd";
+      enabled = true;
       action = "allow";
       duration = "always";
       operator = {
@@ -25,25 +21,32 @@
         operand = "list";
         list = [
           {
-            type = "regexp";
+            type = "simple";
+            sensitive = false;
             operand = "process.path";
-            # Since we might have multiple rust versions installed we can't work off the exact path
-            data = ".*cargo$";
+            data = "${lib.getBin pkgs.nsncd}/bin/nsncd";
           }
           {
-            type = "regexp";
-            operand = "dest.host";
+            type = "simple";
+            operand = "protocol";
             sensitive = false;
-            data = "^(([a-z0-9|-]+\.)*crates\.io|github\.com|)$";
+            data = "udp";
           }
-
+          {
+            type = "simple";
+            operand = "dest.port";
+            sensitive = false;
+            data = "53";
+          }
         ];
       };
     };
-    rule-013-curl = {
-      # name = "Allow some expected curl desinations from work flake";
-      enable = true;
+    # Once again unfortunately pretty broad.  We don't have great view into what tailscale will connect to or do.
+    rule-100-tailscale = {
+      name = "Allow tailscale";
+      enabled = true;
       action = "allow";
+      duration = "always";
       operator = {
         type = "list";
         operand = "list";
@@ -52,16 +55,16 @@
             type = "simple";
             sensitive = false;
             operand = "process.path";
-            data = "${lib.getBin pkgs.curl}/bin/curl";
-          }
-          {
-            type = "simple";
-            operand = "dest.host";
-            sensitive = false;
-            data = "tarballs.nixos.org";
+            data = "${lib.getBin pkgs.tailscale}/bin/.tailscaled-wrapper";
           }
         ];
       };
     };
   };
+
+
+
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
 }
