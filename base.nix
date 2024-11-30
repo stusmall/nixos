@@ -56,7 +56,6 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -92,11 +91,10 @@
     operation = "boot";
   };
 
-  # Limit the parallelism of nix rebuilds.  When left on the default it uses all available resources which can make the
-  # system unusable.
-  nix.settings = {
-    cores = 2;
-    max-jobs = 2;
+  # Limit nix rebuilds priority.  When left on the default is uses all available reouses which can make the system unusable
+  nix = {
+    daemonCPUSchedPolicy = "idle";
+    daemonIOSchedClass = "idle";
   };
 
   # Enable udev settings for yubikey personalization
@@ -123,9 +121,6 @@
   };
   # This is the service that lets you pick power profiles in the gnome UI.  It conflicts with auto-cpufreq
   services.power-profiles-daemon.enable = false;
-
-  # Enable zram
-  zramSwap.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

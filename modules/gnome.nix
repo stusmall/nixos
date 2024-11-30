@@ -11,29 +11,19 @@
 
 
   environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-  ]) ++ (with pkgs.gnome; [
-    atomix
-    caribou
-    cheese
-    geary
     epiphany
+    geary
     gnome-calendar
     gnome-characters
     gnome-clocks
-    gnome-dictionary
     gnome-font-viewer
     gnome-keyring
     gnome-maps
     gnome-music
     gnome-remote-desktop
+    gnome-photos
     gnome-terminal
-    gnome-weather
-    hitori
-    iagno
-    tali
-    totem
+    gnome-tour
     yelp
   ]);
 
@@ -51,7 +41,7 @@
             type = "simple";
             sensitive = false;
             operand = "process.path";
-            data = "${lib.getBin pkgs.gnome.gnome-calculator}/bin/.gnome-calculator-wrapped";
+            data = "${lib.getBin pkgs.gnome-calculator}/bin/.gnome-calculator-wrapped";
           }
           {
             type = "regexp";

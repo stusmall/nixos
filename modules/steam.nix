@@ -3,6 +3,10 @@
   environment.systemPackages = with pkgs; [
     steam
   ];
+
+  # We need 32bit versions of all the OpenGL etc libraries for steam to run
+  hardware.graphics.enable32Bit = true;
+
   programs.steam = {
     remotePlay.openFirewall = true;
   };
