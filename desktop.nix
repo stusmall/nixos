@@ -6,7 +6,6 @@
       (modulesPath + "/installer/scan/not-detected.nix")
       ./base.nix
       ./modules/work.nix
-      # ./modules/encrypted-dns.nix
     ];
 
   # Use the newest kernel.

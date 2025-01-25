@@ -1,6 +1,5 @@
 # This was mostly borrowed from https://github.com/coreyoconnor/nix_configs/blob/b59dbb77ee38e515f4099f8fb0feb5e2286a5b34/modules/semi-active-av.nix
-{ config, pkgs, lib, ... }:
-with lib;
+{ pkgs, lib, ... }:
 let
   notify-all-users = pkgs.writeScript "notify-all-users-of-av-finding"
     ''
@@ -53,6 +52,10 @@ in
     };
   };
 
+  systemd.services.clamav-daemon.serviceConfig = {
+    CPUWeight = 20;
+    IOWeight = 20;
+  };
 
   services.opensnitch.rules = {
     rule-500-freshclam = {
