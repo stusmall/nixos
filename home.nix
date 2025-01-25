@@ -136,7 +136,6 @@
         "Alacritty.desktop"
         "firefox.desktop"
         "rust-rover.desktop"
-        "webstorm.desktop"
         "signal-desktop.desktop"
       ];
     };
