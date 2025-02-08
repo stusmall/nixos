@@ -122,7 +122,7 @@
               type = "regexp";
               operand = "dest.host";
               sensitive = false;
-              data = "^(([a-z0-9|-]+\.)*github\.com|([a-z0-9|-]+\.)*nixos\.org)$";
+              data = "^(([a-z0-9|-]+\\.)*github\\.com|([a-z0-9|-]+\\.)*nixos\\.org)$";
             }
           ];
         };
