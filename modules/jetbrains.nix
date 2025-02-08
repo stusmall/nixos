@@ -26,7 +26,7 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^([a-z0-9|-]+\.)*jetbrains\.com$";
+            data = "^([a-z0-9|-]+\\.)*jetbrains\\.com$";
           }
         ];
       };
@@ -50,7 +50,7 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^(github\.com|raw\.githubusercontent\.com)$";
+            data = "^(github\\.com|raw\\.githubusercontent\\.com)$";
           }
         ];
       };
@@ -99,7 +99,31 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^([a-z0-9|-]+\.)*schemastore\.org$";
+            data = "^([a-z0-9|-]+\\.)*schemastore\\.org$";
+          }
+        ];
+      };
+    };
+    rule-500-jetbrains-to-pypi = {
+      name = "Allow Jetbrains tools to reach out to pypi";
+      enable = true;
+      action = "allow";
+      duration = "always";
+      operator = {
+        type = "list";
+        operand = "list";
+        list = [
+          {
+            type = "simple";
+            sensitive = false;
+            operand = "process.path";
+            data = idePath;
+          }
+          {
+            type = "simple";
+            operand = "dest.host";
+            sensitive = false;
+            data = "pypi.python.org";
           }
         ];
       };
