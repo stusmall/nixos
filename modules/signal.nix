@@ -24,7 +24,7 @@
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^([a-z0-9|-]+\.)*signal\.org$";
+            data = "^([a-z0-9|-]+\\.)*signal\\.org$";
           }
         ];
       };
