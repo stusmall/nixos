@@ -30,16 +30,22 @@ let steamRegex = "^/home/stusmall/.local/share/Steam/ubuntu12_32/steam|/home/stu
             data = "/home/stusmall/.local/share/Steam/ubuntu12_32/steam";
           }
           {
-            type = "simple";
-            operand = "dest.host";
-            sensitive = false;
-            data = "192.168.1.255";
+            type = "network";
+            operand = "dest.network";
+            data = "192.168.1.0/24";
           }
+          {
+            type = "simple";
+            operand = "dest.port";
+            sensitive = false;
+            data = "27036";
+          }
+
         ];
       };
     };
-    rule-600-steam-static-content = {
-      name = "Allow Steam to fetch static content";
+    rule-600-steam-akamaihd = {
+      name = "Allow Steam to reach akamaihd";
       enabled = true;
       action = "allow";
       duration = "always";
@@ -48,21 +54,21 @@ let steamRegex = "^/home/stusmall/.local/share/Steam/ubuntu12_32/steam|/home/stu
         operand = "list";
         list = [
           {
-            type = "regexp";
+            type = "simple";
             sensitive = false;
             operand = "process.path";
-            data = steamRegex;
+            data = "/home/stusmall/.local/share/Steam/ubuntu12_64/steamwebhelper";
           }
           {
-            type = "regexp";
+            type = "simple";
             operand = "dest.host";
             sensitive = false;
-            data = "^([a-z0-9|-]+\\.)*steamstatic\\.com$";
+            data = "steamcommunity-a.akamaihd.net";
           }
         ];
       };
     };
-    rule-600-steam-api = {
+    rule-600-steam-to-steam-domain = {
       name = "Allow Steam to reach steam domains";
       enabled = true;
       action = "allow";
@@ -81,7 +87,7 @@ let steamRegex = "^/home/stusmall/.local/share/Steam/ubuntu12_32/steam|/home/stu
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^([a-z0-9|-]+\\.)*(steampowered\\.com|steamcommunity\\.com|steamserver\\.net)$";
+            data = "^([a-z0-9|-]+\\.)*(steampowered\\.com|steamcommunity\\.com|steamserver\\.net|steamstatic\\.com)$";
           }
         ];
       };
@@ -102,10 +108,10 @@ let steamRegex = "^/home/stusmall/.local/share/Steam/ubuntu12_32/steam|/home/stu
             data = "/home/stusmall/.local/share/Steam/ubuntu12_64/steamwebhelper";
           }
           {
-            type = "simple";
+            type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "update.googleapis.com";
+            data = "^(update|steamcloud-us-east1\\.storage\\.)\\.googleapis\\.com$";
           }
         ];
       };

@@ -106,7 +106,7 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
     };
     rule-500-jetbrains-to-pypi = {
       name = "Allow Jetbrains tools to reach out to pypi";
-      enable = true;
+      enabled = true;
       action = "allow";
       duration = "always";
       operator = {
@@ -120,10 +120,10 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
             data = idePath;
           }
           {
-            type = "simple";
+            type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "pypi.python.org";
+            data = "^pypi.python.org|pypi.org$";
           }
         ];
       };

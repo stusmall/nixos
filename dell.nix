@@ -36,11 +36,8 @@
 
   swapDevices = [{
     device = "/var/lib/swapfile";
-    size = 16 * 1024;
+    size = 64 * 1024;
   }];
-
-  # Enable zram
-  zramSwap.enable = true;
 
   networking.useDHCP = lib.mkDefault true;
 
