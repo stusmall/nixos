@@ -52,6 +52,8 @@ in
     };
   };
 
+  # We don't want clam to be eating up tons of resources while running.  This is something we want to run async, not
+  # step in the users way.
   systemd.services.clamav-daemon.serviceConfig = {
     CPUWeight = 20;
     IOWeight = 20;
@@ -74,10 +76,10 @@ in
             data = "${lib.getBin pkgs.clamav}/bin/freshclam";
           }
           {
-            type = "simple";
+            type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "database.clamav.net";
+            data = "^([a-z0-9|-]+\\.)*clamav\\.net$";
           }
         ];
       };

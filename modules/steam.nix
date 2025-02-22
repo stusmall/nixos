@@ -1,5 +1,5 @@
 { pkgs, lib, ... }:
-let steamRegex = "^/home/stusmall/.local/share/Steam/ubuntu12_32/steam|/home/stusmall/.local/share/Steam/ubuntu12_64/steamwebhelper$"; in
+let steamRegex = "^/home/stusmall/\\.local/share/Steam/ubuntu12_32/steam|/home/stusmall/\\.local/share/Steam/ubuntu12_64/steamwebhelper$"; in
 
 {
   environment.systemPackages = with pkgs; [

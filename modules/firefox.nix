@@ -28,9 +28,9 @@ let
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/facebook-container/latest.xpi";
           installation_mode = "force_installed";
         };
-        # LeechBlockNG
-        "leechblockng@proginosko.com" = {
-          install_url = "https://addons.mozilla.org/firefox/downloads/latest/leechblock-ng/latest.xpi";
+        # Kagi search
+        "search@kagi.com" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/kagi-search-for-firefox/latest.xpi";
           installation_mode = "force_installed";
         };
         # ublock origin

@@ -8,9 +8,12 @@
       ./modules/firefox.nix
       ./modules/gnome.nix
       ./modules/jetbrains.nix
+      ./modules/ollama.nix
       ./modules/opensnitch.nix
+      ./modules/podman.nix
       ./modules/rust.nix
       ./modules/signal.nix
+      ./modules/watchmate.nix
       ./modules/wireshark.nix
     ];
 

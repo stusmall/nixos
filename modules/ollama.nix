@@ -1,13 +1,14 @@
 { pkgs, lib, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    clang
-    rustup
-  ];
+
+  services.ollama = {
+    enable = true;
+    loadModels = [ ];
+  };
 
   services.opensnitch.rules = {
-    rule-500-cargo = {
-      name = "Allow cargo to reach needed sites";
+    rule-500-fetch-cuda = {
+      name = "Allow fetching CUDA drivers";
       enabled = true;
       action = "allow";
       duration = "always";
@@ -19,19 +20,20 @@
             type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = "^(/home/stusmall/\\.rustup/toolchains/(.*)/bin/cargo)|(${lib.getBin pkgs.cargo}/bin/cargo)$";
+            data = "^.*/bin/curl$";
           }
           {
-            type = "regexp";
+            type = "simple";
             operand = "dest.host";
             sensitive = false;
-            data = "^(([a-z0-9|-]+\\.)*crates\\.io)|(([a-z0-9|-]+\\.)*github\\.com)$";
+            data = "developer.download.nvidia.com";
           }
         ];
       };
     };
-    rule-500-rustup = {
-      name = "Allow rustup to reach needed sites";
+
+    rule-500-download-models = {
+      name = "Allow ollama to fetch models";
       enabled = true;
       action = "allow";
       duration = "always";
@@ -43,13 +45,13 @@
             type = "simple";
             sensitive = false;
             operand = "process.path";
-            data = "${lib.getBin pkgs.rustup}/bin/.rustup-wrapped";
+            data = "${lib.getBin pkgs.ollama}/bin/.ollama-wrapped";
           }
           {
             type = "simple";
             operand = "dest.host";
             sensitive = false;
-            data = "static.rust-lang.org";
+            data = "registry.ollama.ai";
           }
         ];
       };

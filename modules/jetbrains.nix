@@ -123,7 +123,7 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^pypi.python.org|pypi.org$";
+            data = "^pypi\\.python.org|pypi\\.org$";
           }
         ];
       };

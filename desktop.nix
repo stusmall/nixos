@@ -5,6 +5,7 @@
     [
       (modulesPath + "/installer/scan/not-detected.nix")
       ./base.nix
+      ./modules/steam.nix
       ./modules/work.nix
     ];
 
@@ -40,7 +41,6 @@
     };
 
   swapDevices = [ ];
-
   networking.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

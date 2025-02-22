@@ -34,11 +34,6 @@
       fsType = "vfat";
     };
 
-  swapDevices = [{
-    device = "/var/lib/swapfile";
-    size = 64 * 1024;
-  }];
-
   networking.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
@@ -79,5 +74,10 @@
 
   # Enable options in Gnome shell to launch an app on the discrete graphics card
   services.switcherooControl.enable = true;
+
+  # If using ollama, enable CUDA
+  services.ollama = {
+    acceleration = "cuda";
+  };
 }
 
