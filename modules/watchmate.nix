@@ -1,12 +1,15 @@
 { pkgs, lib, ... }:
 {
+
+  # This utility it what I use to update firmware on my pinetime.  It just needs to reach GitHub to fetch the newest
+  # firmware.
   environment.systemPackages = with pkgs; [
-    signal-desktop
+    watchmate
   ];
 
   services.opensnitch.rules = {
-    rule-500-signal = {
-      name = "Allow Signal";
+    rule-500-watchmate-github = {
+      name = "Allow Watchmate reach GitHub";
       enabled = true;
       action = "allow";
       duration = "always";
@@ -18,13 +21,13 @@
             type = "simple";
             sensitive = false;
             operand = "process.path";
-            data = "${lib.getBin pkgs.signal-desktop}/lib/signal-desktop/signal-desktop";
+            data = "${lib.getBin pkgs.watchmate}/bin/.watchmate-wrapped";
           }
           {
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^([a-z0-9|-]+\\.)*signal\\.org$";
+            data = "^(api\\.github\\.com)|(objects\\.githubusercontent\\.com)$";
           }
         ];
       };

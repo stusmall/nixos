@@ -113,10 +113,10 @@
           operand = "list";
           list = [
             {
-              type = "simple";
+              type = "regexp";
               sensitive = false;
               operand = "process.path";
-              data = "${lib.getBin pkgs.nix}/bin/nix";
+              data = "^.*/bin/nix$";
             }
             {
               type = "regexp";

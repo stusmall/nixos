@@ -19,5 +19,17 @@
         data = "${lib.getBin pkgs.zoom-us}/opt/zoom/.zoom";
       };
     };
+    rule-901-zoom-webview = {
+      name = "Allow Zoom Webview";
+      enabled = true;
+      action = "allow";
+      duration = "always";
+      operator = {
+        type = "simple";
+        sensitive = false;
+        operand = "process.path";
+        data = "${lib.getBin pkgs.zoom-us}/opt/zoom/.ZoomWebviewHost-wrapped";
+      };
+    };
   };
 }

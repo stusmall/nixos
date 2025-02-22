@@ -11,6 +11,7 @@
     alacritty
     chromium
     dig
+    evince
     gnupg
     htop
     jq
@@ -24,6 +25,7 @@
     nmap
     tokei
     tree
+    trivy
     usbutils
     whois
     vlc
