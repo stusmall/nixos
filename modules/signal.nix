@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 {
   environment.systemPackages = with pkgs; [
-    signal-desktop
+    signal-desktop-bin
   ];
 
   services.opensnitch.rules = {
@@ -18,7 +18,7 @@
             type = "simple";
             sensitive = false;
             operand = "process.path";
-            data = "${lib.getBin pkgs.signal-desktop}/lib/signal-desktop/signal-desktop";
+            data = "${lib.getBin pkgs.signal-desktop-bin}/lib/signal-desktop/signal-desktop";
           }
           {
             type = "regexp";

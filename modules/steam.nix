@@ -87,7 +87,7 @@ let steamRegex = "^/home/stusmall/\\.local/share/Steam/ubuntu12_32/steam|/home/s
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^([a-z0-9|-]+\\.)*(steampowered\\.com|steamcommunity\\.com|steamserver\\.net|steamstatic\\.com)$";
+            data = "^([a-z0-9|-]+\\.)*(steampowered\\.com|steamcommunity\\.com|steamserver\\.net|steamstatic\\.com|steamcontent\\.com)$";
           }
         ];
       };

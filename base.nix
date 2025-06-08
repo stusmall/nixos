@@ -8,7 +8,6 @@
       ./modules/firefox.nix
       ./modules/gnome.nix
       ./modules/jetbrains.nix
-      ./modules/ollama.nix
       ./modules/opensnitch.nix
       ./modules/podman.nix
       ./modules/rust.nix
@@ -22,7 +21,6 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
 
   # Set your time zone.
   time.timeZone = "America/Denver";
@@ -55,7 +53,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -92,6 +90,7 @@
 
   # Limit nix rebuilds priority.  When left on the default is uses all available reouses which can make the system unusable
   nix = {
+    settings.cores = 4;
     daemonCPUSchedPolicy = "idle";
     daemonIOSchedClass = "idle";
   };

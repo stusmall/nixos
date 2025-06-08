@@ -1,6 +1,5 @@
 { pkgs, lib, ... }:
 let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover-wrapped"; in
-
 {
   environment.systemPackages = with pkgs.jetbrains; [
     rust-rover
@@ -26,7 +25,7 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
             type = "regexp";
             operand = "dest.host";
             sensitive = false;
-            data = "^([a-z0-9|-]+\\.)*jetbrains\\.com$";
+            data = "^(([a-z0-9|-]+\\.)*jetbrains\\.com)|(([a-z0-9|-]+\\.)*intellij\\.net)$";
           }
         ];
       };
@@ -124,6 +123,30 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
             operand = "dest.host";
             sensitive = false;
             data = "^pypi\\.python.org|pypi\\.org$";
+          }
+        ];
+      };
+    };
+    rule-500-deny-jetbrains-ai = {
+      name = "Deny jetbrains AI access";
+      enabled = true;
+      action = "deny";
+      duration = "always";
+      operator = {
+        type = "list";
+        operand = "list";
+        list = [
+          {
+            type = "simple";
+            sensitive = false;
+            operand = "process.path";
+            data = idePath;
+          }
+          {
+            type = "simple";
+            operand = "dest.host";
+            sensitive = false;
+            data = "api.jetbrains.ai";
           }
         ];
       };
