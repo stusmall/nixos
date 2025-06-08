@@ -74,10 +74,5 @@
 
   # Enable options in Gnome shell to launch an app on the discrete graphics card
   services.switcherooControl.enable = true;
-
-  # If using ollama, enable CUDA
-  services.ollama = {
-    acceleration = "cuda";
-  };
 }
 

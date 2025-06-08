@@ -65,7 +65,7 @@
     enableSshSupport = true;
     defaultCacheTtl = 60;
     maxCacheTtl = 120;
-    pinentryPackage = pkgs.pinentry-gnome3;
+    pinentry.package = pkgs.pinentry-gnome3;
   };
 
   programs.git = {
@@ -97,6 +97,7 @@
   programs.zellij = {
     enable = true;
     settings = {
+      show_startup_tips = false;
       ui = {
         pane_frames = {
           hide_session_name = true;
