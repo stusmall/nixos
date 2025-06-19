@@ -1,8 +1,9 @@
 { pkgs, lib, ... }:
-let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover-wrapped"; in
+let ideRegex = "^(${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/\\.rustrover-wrapped)|(${lib.getBin pkgs.jetbrains.webstorm}/webstorm/bin/\\.webstorm-wrapped)$"; in
 {
   environment.systemPackages = with pkgs.jetbrains; [
     rust-rover
+    webstorm
   ];
 
   services.opensnitch.rules = {
@@ -16,10 +17,10 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
         operand = "list";
         list = [
           {
-            type = "simple";
+            type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = idePath;
+            data = ideRegex;
           }
           {
             type = "regexp";
@@ -40,10 +41,10 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
         operand = "list";
         list = [
           {
-            type = "simple";
+            type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = idePath;
+            data = ideRegex;
           }
           {
             type = "regexp";
@@ -65,10 +66,10 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
         operand = "list";
         list = [
           {
-            type = "simple";
+            type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = idePath;
+            data = ideRegex;
           }
           {
             type = "simple";
@@ -89,10 +90,10 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
         operand = "list";
         list = [
           {
-            type = "simple";
+            type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = idePath;
+            data = ideRegex;
           }
           {
             type = "regexp";
@@ -113,10 +114,10 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
         operand = "list";
         list = [
           {
-            type = "simple";
+            type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = idePath;
+            data = ideRegex;
           }
           {
             type = "regexp";
@@ -137,10 +138,10 @@ let idePath = "${lib.getBin pkgs.jetbrains.rust-rover}/rust-rover/bin/.rustrover
         operand = "list";
         list = [
           {
-            type = "simple";
+            type = "regexp";
             sensitive = false;
             operand = "process.path";
-            data = idePath;
+            data = ideRegex;
           }
           {
             type = "simple";

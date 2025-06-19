@@ -5,8 +5,9 @@
     [
       (modulesPath + "/installer/scan/not-detected.nix")
       ./base.nix
+      ./modules/ollama.nix
+      ./modules/sshd.nix
       ./modules/steam.nix
-      ./modules/work.nix
     ];
 
   # Use the newest kernel.
@@ -25,18 +26,18 @@
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/af1c6485-22a5-49d6-9aa4-fdd51c06e75d";
+      device = "/dev/disk/by-uuid/4990cefe-a612-4cce-a5bc-5c1553c811a2";
       fsType = "ext4";
       options = [
-        "commit=300,noatime"
+        "noatime"
       ];
     };
 
-  boot.initrd.luks.devices."luks-1f5300da-10e9-4730-b25b-9eed41ac33d3".device = "/dev/disk/by-uuid/1f5300da-10e9-4730-b25b-9eed41ac33d3";
+  boot.initrd.luks.devices."luks-50826637-979d-4a6f-8406-9688a70629b6".device = "/dev/disk/by-uuid/50826637-979d-4a6f-8406-9688a70629b6";
 
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-uuid/DC37-A158";
+      device = "/dev/disk/by-uuid/33AF-0758";
       fsType = "vfat";
     };
 

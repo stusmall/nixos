@@ -5,6 +5,7 @@
     [
       <home-manager/nixos>
       ./modules/antivirus.nix
+      ./modules/encrypted-dns.nix
       ./modules/firefox.nix
       ./modules/gnome.nix
       ./modules/jetbrains.nix
@@ -14,6 +15,7 @@
       ./modules/signal.nix
       ./modules/watchmate.nix
       ./modules/wireshark.nix
+      ./modules/zed.nix
     ];
 
   # Set a limit on the number of generations to include in boot
@@ -88,7 +90,14 @@
     operation = "boot";
   };
 
-  # Limit nix rebuilds priority.  When left on the default is uses all available reouses which can make the system unusable
+  # Auto GC
+  nix.gc = {
+    automatic = true;
+    persistent = true;
+    options = "--delete-older-than 30d";
+  };
+
+  # Limit nix rebuilds priority.  When left on the default is uses all available resources which can make the system unusable
   nix = {
     settings.cores = 4;
     daemonCPUSchedPolicy = "idle";
@@ -128,5 +137,3 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 }
-
-

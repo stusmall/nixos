@@ -57,6 +57,8 @@
 
   programs.direnv = {
     enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
   };
 
   services.gpg-agent = {
@@ -123,6 +125,10 @@
     "org/gnome/desktop/notifications" = {
       show-in-lock-screen = false;
     };
+    # Use stacked area chart to better show utilization in systems with many CPUs
+    "org/gnome/gnome-system-monitor" = {
+      cpu-stacked-area-chart = true;
+    };
     # Suspend after 15 minutes
     "org/gnome/settings-daemon/plugins/power" = {
       sleep-inactive-ac-type = "suspend";
@@ -138,8 +144,10 @@
       favorite-apps = [
         "Alacritty.desktop"
         "firefox.desktop"
-        "rust-rover.desktop"
         "signal-desktop.desktop"
+        "dev.zed.Zed.desktop"
+        "rust-rover.desktop"
+        "webstorm.desktop"
       ];
     };
     "org/gnome/shell/extensions/dash-to-dock" = {
@@ -149,5 +157,11 @@
       enabled = false;
     };
   };
-}
 
+  xdg.mimeApps.defaultApplications = {
+    "text/html" = "firefox.desktop";
+    "x-scheme-handler/http" = "firefox.desktop";
+    "x-scheme-handler/https" = "firefox.desktop";
+
+  };
+}
