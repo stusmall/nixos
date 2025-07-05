@@ -1,8 +1,9 @@
 { pkgs, lib, ... }:
 {
-  environment.systemPackages = [
-    pkgs.ollama-rocm
-  ];
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+  };
 
 
   services.opensnitch.rules = {

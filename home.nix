@@ -96,6 +96,27 @@
     enable = true;
   };
 
+  programs.zed-editor = {
+    enable = true;
+    extensions = [ "nix" ];
+    userSettings = {
+      languages = {
+        Nix = {
+          formatter = {
+            external = {
+              command = "nixpkgs-fmt";
+            };
+          };
+          language_servers = [ "nil" "!nixd" ];
+        };
+      };
+      telemetry = {
+        metrics = false;
+        diagnostics = false;
+      };
+    };
+  };
+
   programs.zellij = {
     enable = true;
     settings = {
