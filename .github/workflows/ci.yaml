@@ -15,4 +15,4 @@ jobs:
         with:
           nix_path: nixpkgs=channel:nixos-unstable
       - name: Check project formatting
-        run: nix-shell -p nixpkgs-fmt --command "nixpkgs-fmt --check ."
+        run: nix-shell -p nixfmt-tree --command "treefmt --ci"

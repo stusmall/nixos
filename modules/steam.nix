@@ -1,10 +1,10 @@
 { pkgs, lib, ... }:
-let steamRegex = "^/home/stusmall/\\.local/share/Steam/ubuntu12_32/steam|/home/stusmall/\\.local/share/Steam/ubuntu12_64/steamwebhelper$"; in
+let
+  steamRegex = "^/home/stusmall/\\.local/share/Steam/ubuntu12_32/steam|/home/stusmall/\\.local/share/Steam/ubuntu12_64/steamwebhelper$";
 
+in
 {
-  environment.systemPackages = with pkgs; [
-    steam
-  ];
+  environment.systemPackages = with pkgs; [ steam ];
 
   # We need 32bit versions of all the OpenGL etc libraries for steam to run
   hardware.graphics.enable32Bit = true;

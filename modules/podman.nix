@@ -1,4 +1,5 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, ... }:
+{
   virtualisation.containers.enable = true;
   virtualisation = {
     podman = {
@@ -10,7 +11,5 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
-    podman-compose
-  ];
+  environment.systemPackages = with pkgs; [ podman-compose ];
 }

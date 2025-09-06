@@ -18,15 +18,20 @@
       edns_client_subnet_private = 1;
       round_robin_upstreams = 1;
       idle_timeout = 10000;
-      listen_addresses = [ "127.0.0.1" "0::1" ];
-      upstream_recursive_servers = [{
-        address_data = "1.0.0.2";
-        tls_auth_name = "security.cloudflare-dns.com";
-      }
+      listen_addresses = [
+        "127.0.0.1"
+        "0::1"
+      ];
+      upstream_recursive_servers = [
+        {
+          address_data = "1.0.0.2";
+          tls_auth_name = "security.cloudflare-dns.com";
+        }
         {
           address_data = "1.1.1.2";
           tls_auth_name = "security.cloudflare-dns.com";
-        }];
+        }
+      ];
     };
   };
 

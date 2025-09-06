@@ -1,22 +1,19 @@
 { pkgs, ... }:
 
 {
-  imports =
-    [
-      <home-manager/nixos>
-      ./modules/antivirus.nix
-      ./modules/encrypted-dns.nix
-      ./modules/firefox.nix
-      ./modules/gnome.nix
-      ./modules/jetbrains.nix
-      ./modules/opensnitch.nix
-      ./modules/podman.nix
-      ./modules/rust.nix
-      ./modules/signal.nix
-      ./modules/watchmate.nix
-      ./modules/wireshark.nix
-      ./modules/zed.nix
-    ];
+  imports = [
+    <home-manager/nixos>
+    ./modules/encrypted-dns.nix
+    ./modules/firefox.nix
+    ./modules/gnome.nix
+    ./modules/opensnitch.nix
+    ./modules/rust.nix
+    ./modules/signal.nix
+    # ./modules/tailscale.nix
+    ./modules/watchmate.nix
+    ./modules/wireshark.nix
+    ./modules/zed.nix
+  ];
 
   # Set a limit on the number of generations to include in boot
   boot.loader.systemd-boot.configurationLimit = 20;
@@ -70,12 +67,14 @@
   users.users.stusmall = {
     isNormalUser = true;
     description = "Stuart Small";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
   };
 
   # Make nixos-rebuild invoke home-manager
   home-manager.users.stusmall = import ./home.nix;
-
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -107,12 +106,13 @@
   # Enable udev settings for yubikey personalization
   services.udev.packages = [ pkgs.yubikey-personalization ];
 
-
   environment.systemPackages = with pkgs; [
     helix
     home-manager
   ];
 
+  # This is needed for PIV operations on the yubikey
+  services.pcscd.enable = true;
 
   # Set up auto-cpufreq for better power management.
   services.auto-cpufreq.enable = true;

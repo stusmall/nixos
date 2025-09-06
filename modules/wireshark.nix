@@ -13,7 +13,5 @@
   # Add myself to this new group
   users.users.stusmall.extraGroups = [ "wireshark" ];
 
-  environment.systemPackages = [
-    pkgs.wireshark
-  ];
+  environment.systemPackages = [ pkgs.wireshark ];
 }
