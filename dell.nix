@@ -1,14 +1,25 @@
-{ config, lib, modulesPath, ... }:
+{
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
-  imports =
-    [
-      (modulesPath + "/installer/scan/not-detected.nix")
-      ./base.nix
-      ./modules/steam.nix
-    ];
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+    ./base.nix
+    ./modules/steam.nix
+  ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ahci"
+    "nvme"
+    "usb_storage"
+    "sd_mod"
+    "rtsx_pci_sdmmc"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
@@ -19,19 +30,18 @@
 
   networking.hostName = "dell-3551";
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-uuid/6b3805a2-8df8-4407-aacc-dd32784075a8";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/6b3805a2-8df8-4407-aacc-dd32784075a8";
+    fsType = "ext4";
+  };
 
-  boot.initrd.luks.devices."luks-1b1be12b-e63c-4077-aae8-f90352cd9d68".device = "/dev/disk/by-uuid/1b1be12b-e63c-4077-aae8-f90352cd9d68";
+  boot.initrd.luks.devices."luks-1b1be12b-e63c-4077-aae8-f90352cd9d68".device =
+    "/dev/disk/by-uuid/1b1be12b-e63c-4077-aae8-f90352cd9d68";
 
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-uuid/950B-E02A";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/950B-E02A";
+    fsType = "vfat";
+  };
 
   networking.useDHCP = lib.mkDefault true;
 
@@ -54,9 +64,9 @@
 
     # Use the NVidia open source kernel module (not to be confused with the
     # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+    # Support is limited to the Turing and later architectures. Full list of
+    # supported GPUs is at:
+    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
     open = false;
@@ -74,4 +84,3 @@
   # Enable options in Gnome shell to launch an app on the discrete graphics card
   services.switcherooControl.enable = true;
 }
-

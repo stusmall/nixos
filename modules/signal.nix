@@ -1,8 +1,6 @@
 { pkgs, lib, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    signal-desktop-bin
-  ];
+  environment.systemPackages = with pkgs; [ signal-desktop-bin ];
 
   services.opensnitch.rules = {
     rule-500-signal = {

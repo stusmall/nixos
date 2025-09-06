@@ -3,9 +3,7 @@
 
   # This utility it what I use to update firmware on my pinetime.  It just needs to reach GitHub to fetch the newest
   # firmware.
-  environment.systemPackages = with pkgs; [
-    watchmate
-  ];
+  environment.systemPackages = with pkgs; [ watchmate ];
 
   services.opensnitch.rules = {
     rule-500-watchmate-github = {

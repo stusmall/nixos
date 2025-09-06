@@ -1,4 +1,12 @@
 { lib, pkgs, ... }:
+let
+  unstable_pkgs = import (pkgs.fetchgit {
+    name = "nixpkgs-unstable-aug-29-2025";
+    url = "https://github.com/nixos/nixpkgs/";
+    rev = "604f22e0304b679e96edd9f47cbbfc4d513a3751";
+    hash = "sha256-9+O/hi9UjnF4yPjR3tcUbxhg/ga0OpFGgVLvSW5FfbE=";
+  }) { };
+in
 {
   home.username = "stusmall";
   home.homeDirectory = "/home/stusmall";
@@ -15,13 +23,11 @@
     gnupg
     htop
     jq
-    libreoffice-fresh
     openssl
     pciutils
     ripgrep
     meld
-    nil
-    nixpkgs-fmt
+    nixfmt-rfc-style
     nmap
     tokei
     tree
@@ -48,7 +54,9 @@
     enable = true;
     bashrcExtra = ''
       # Always open terminal in zellij session
-      eval "$(zellij setup --generate-auto-start bash)"
+      if [ "$TERM_PROGRAM" != "zed" ]; then
+        eval "$(zellij setup --generate-auto-start bash)"
+      fi
       # Needed to use yubkiey for SSH key
       export GPG_TTY="$(tty)"
       export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
@@ -91,30 +99,8 @@
     };
   };
 
-
   programs.helix = {
     enable = true;
-  };
-
-  programs.zed-editor = {
-    enable = true;
-    extensions = [ "nix" ];
-    userSettings = {
-      languages = {
-        Nix = {
-          formatter = {
-            external = {
-              command = "nixpkgs-fmt";
-            };
-          };
-          language_servers = [ "nil" "!nixd" ];
-        };
-      };
-      telemetry = {
-        metrics = false;
-        diagnostics = false;
-      };
-    };
   };
 
   programs.zellij = {
@@ -129,7 +115,79 @@
     };
   };
 
+  programs.zed-editor = {
+    enable = true;
+    package = unstable_pkgs.zed-editor;
+    extensions = [
+      "make"
+      "nix"
+      "toml"
+    ];
+    userSettings = {
+      "buffer_font_features" = {
+        # Disable font ligatures
+        "calt" = false;
+      };
+      "dap" = {
+        "CodeLLDB" = {
+          "binary" = "${pkgs.lldb}/bin/lldb-dap";
+        };
+      };
+      "languages" = {
+        "Nix" = {
+          "language_servers" = [
+            "nil"
+            "!nixd"
+          ];
+        };
+      };
+      "load_direnv" = "shell_hook";
+      "inlay_hints" = {
+        "enabled" = true;
+        "show_type_hints" = true;
+      };
+      "lsp" = {
+        "nil" = {
+          "binary" = {
+            "path" = lib.getExe pkgs.nil;
+          };
+          "initialization_options" = {
+            "formatting" = {
+              "command" = [ "nixfmt" ];
+            };
+            "settings" = {
+              "diagnostics" = {
+                "ignored" = [ "unused_binding" ];
+              };
+            };
+          };
+        };
+        "rust-analyzer" = {
+          "binary" = {
+            "path" = lib.getExe pkgs.rust-analyzer;
+          };
+          "initialization_options" = {
+            "inlayHints" = {
+              "maxLength" = null;
+              "lifetimeElisionHints" = {
+                "enable" = "skip_trivial";
+                "useParameterNames" = true;
+              };
+              "closureReturnTypeHints" = {
+                "enable" = "always";
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+
   dconf.settings = {
+    "org/gnome/calculator" = {
+      # Disable currency conversion refresh
+      refresh-interval = 0;
+    };
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
       # Added for: https://github.com/alacritty/alacritty/issues/4780#issuecomment-859481392
@@ -167,8 +225,6 @@
         "firefox.desktop"
         "signal-desktop.desktop"
         "dev.zed.Zed.desktop"
-        "rust-rover.desktop"
-        "webstorm.desktop"
       ];
     };
     "org/gnome/shell/extensions/dash-to-dock" = {
@@ -183,6 +239,5 @@
     "text/html" = "firefox.desktop";
     "x-scheme-handler/http" = "firefox.desktop";
     "x-scheme-handler/https" = "firefox.desktop";
-
   };
 }

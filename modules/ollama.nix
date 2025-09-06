@@ -5,7 +5,6 @@
     acceleration = "rocm";
   };
 
-
   services.opensnitch.rules = {
     rule-500-download-models = {
       name = "Allow ollama to fetch models";

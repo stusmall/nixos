@@ -1,13 +1,12 @@
 { pkgs, lib, ... }:
 {
-  environment.systemPackages = [
-    pkgs.opensnitch-ui
-  ];
+  environment.systemPackages = [ pkgs.opensnitch-ui ];
 
   # Set start up applications
   # shitty version of this https://github.com/nix-community/home-manager/issues/3447#issuecomment-1328294558
-  environment.etc."xdg/autostart/opensnitch_ui.desktop".source = (pkgs.opensnitch-ui + "/share/applications/opensnitch_ui.desktop");
-
+  environment.etc."xdg/autostart/opensnitch_ui.desktop".source = (
+    pkgs.opensnitch-ui + "/share/applications/opensnitch_ui.desktop"
+  );
 
   # A list of general rules needed no matter how the system is configured
   services.opensnitch = {
