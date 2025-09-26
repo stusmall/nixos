@@ -163,9 +163,6 @@ in
           };
         };
         "rust-analyzer" = {
-          "binary" = {
-            "path" = lib.getExe pkgs.rust-analyzer;
-          };
           "initialization_options" = {
             "inlayHints" = {
               "maxLength" = null;

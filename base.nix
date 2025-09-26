@@ -9,7 +9,7 @@
     ./modules/opensnitch.nix
     ./modules/rust.nix
     ./modules/signal.nix
-    # ./modules/tailscale.nix
+    ./modules/tailscale.nix
     ./modules/watchmate.nix
     ./modules/wireshark.nix
     ./modules/zed.nix
