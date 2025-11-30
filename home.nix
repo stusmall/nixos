@@ -1,12 +1,4 @@
 { lib, pkgs, ... }:
-let
-  unstable_pkgs = import (pkgs.fetchgit {
-    name = "nixpkgs-unstable-aug-29-2025";
-    url = "https://github.com/nixos/nixpkgs/";
-    rev = "604f22e0304b679e96edd9f47cbbfc4d513a3751";
-    hash = "sha256-9+O/hi9UjnF4yPjR3tcUbxhg/ga0OpFGgVLvSW5FfbE=";
-  }) { };
-in
 {
   home.username = "stusmall";
   home.homeDirectory = "/home/stusmall";
@@ -22,7 +14,6 @@ in
     evince
     gnupg
     htop
-    jq
     openssl
     pciutils
     ripgrep
@@ -80,9 +71,12 @@ in
 
   programs.git = {
     enable = true;
-    userName = "Stu Small";
-    userEmail = "stuart.alan.small@gmail.com";
-    extraConfig = {
+    settings = {
+      user = {
+        name = "Stu Small";
+        email = "stuart.alan.small@gmail.com";
+      };
+      # extraConfig = {
       core = {
         editor = "hx";
         compression = 9;
@@ -96,6 +90,7 @@ in
       push = {
         autoSetupRemote = true;
       };
+      # };
     };
   };
 
@@ -117,7 +112,7 @@ in
 
   programs.zed-editor = {
     enable = true;
-    package = unstable_pkgs.zed-editor;
+    package = pkgs.zed-editor;
     extensions = [
       "make"
       "nix"

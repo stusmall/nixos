@@ -30,6 +30,9 @@
 
   networking.hostName = "dell-3551";
 
+  # Dell provides support for fwupd
+  services.fwupd.enable = true;
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/6b3805a2-8df8-4407-aacc-dd32784075a8";
     fsType = "ext4";
