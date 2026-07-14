@@ -7,6 +7,7 @@
       "make"
       "nix"
       "sql"
+      "opentofu"
       "toml"
     ];
     userSettings = {

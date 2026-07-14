@@ -19,6 +19,8 @@
       ripgrep
       nixfmt
       nmap
+      opentofu
+      tofu-ls
       tokei
       tree
       trivy
