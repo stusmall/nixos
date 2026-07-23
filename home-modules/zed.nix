@@ -11,37 +11,6 @@
       "toml"
     ];
     userSettings = {
-      "agent" = {
-        "default_profile" = "ask";
-        "default_model" = {
-          "provider" = "localmodel";
-          "model" = "ggml-org/gpt-oss-20b-GGUF";
-        };
-        "tool_permissions" = {
-          "default" = "confirm";
-          "tools" = {
-            "search_web" = {
-              "default" = "allow";
-            };
-            "fetch" = {
-              "default" = "allow";
-            };
-            "edit_file" = {
-              "default" = "confirm";
-              "always_allow" = [
-                { "pattern" = "\.rs$"; }
-              ];
-            };
-            "terminal" = {
-              "default" = "confirm";
-              "always_allow" = [
-                { "pattern" = "^cargo\\s+(build|test|check)"; }
-                { "pattern" = "^npm\\s+(install|test|run)"; }
-              ];
-            };
-          };
-        };
-      };
       "buffer_font_features" = {
         # Disable font ligatures
         "calt" = false;
