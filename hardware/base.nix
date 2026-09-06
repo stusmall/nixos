@@ -70,7 +70,7 @@
   };
 
   # Make nixos-rebuild invoke home-manager
-  home-manager.users.stusmall = import ../home-modules/base.nix;
+  home-manager.users.stusmall = import ../home-modules/linux-home.nix;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -94,10 +94,6 @@
 
   # Limit nix rebuilds priority.  When left on the default is uses all available resources which can make the system unusable
   nix = {
-    settings = {
-      cores = 2;
-      max-jobs = 2;
-    };
     daemonCPUSchedPolicy = "idle";
     daemonIOSchedClass = "idle";
   };

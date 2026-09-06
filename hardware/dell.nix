@@ -10,7 +10,6 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     ./base.nix
     ../nixos-modules/fwupd.nix
-    # ../nixos-modules/local-k8s.nix
     ../nixos-modules/steam.nix
   ];
 

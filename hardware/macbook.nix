@@ -14,7 +14,7 @@
   };
   system.primaryUser = "stuartsmall";
 
-  home-manager.users.stuartsmall = import ../home-modules/base.nix;
+  home-manager.users.stuartsmall = import ../home-modules/macos-home.nix;
 
   nixpkgs.config.allowUnfree = true;
 

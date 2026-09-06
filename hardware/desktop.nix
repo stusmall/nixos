@@ -2,7 +2,6 @@
   config,
   lib,
   modulesPath,
-  pkgs,
   ...
 }:
 
@@ -10,13 +9,9 @@
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
     ./base.nix
-    ./modules/ollama.nix
-    ./modules/sshd.nix
-    ./modules/steam.nix
+    ../nixos-modules/sshd.nix
+    ../nixos-modules/steam.nix
   ];
-
-  # Use the newest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.initrd.availableKernelModules = [
     "nvme"

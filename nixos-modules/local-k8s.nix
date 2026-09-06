@@ -22,4 +22,5 @@
       "libvirtd"
     ];
   };
+  virtualisation.podman.enable = true;
 }
