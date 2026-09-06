@@ -11,31 +11,18 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
-  home.packages =
-    with pkgs;
-    [
-      dig
-      helix
-      ripgrep
-      nixfmt
-      nmap
-      opentofu
-      tofu-ls
-      tokei
-      tree
-      trivy
-    ]
-    ++ pkgs.lib.optionals pkgs.stdenv.isLinux [
-      chromium
-      evince
-      openssl
-      pciutils
-      meld
-      mission-center
-      usbutils
-      whois
-      vlc
-    ];
+  home.packages = with pkgs; [
+    dig
+    helix
+    ripgrep
+    nixfmt
+    nmap
+    opentofu
+    tofu-ls
+    tokei
+    tree
+    trivy
+  ];
 
   home.stateVersion = "25.11";
 }

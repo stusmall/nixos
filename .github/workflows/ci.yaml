@@ -5,14 +5,31 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 jobs:
-  format:
-    name: Check formatting
-    runs-on: ubuntu-22.04
+  linux:
+    name: Format and Build for Linux
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      - uses: cachix/install-nix-action@7ac1ec25491415c381d9b62f0657c7a028df52a7 # v24
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31.11.1
         with:
-          nix_path: nixpkgs=channel:nixos-unstable
+          nix_path: nixpkgs=channel:nixos-26.05:home-manager=https://github.com/nix-community/home-manager/archive/release-26.05.tar.gz:cosmic-manager=https://github.com/HeitorAugustoLN/cosmic-manager/archive/main.tar.gz
       - name: Check project formatting
         run: nix-shell -p nixfmt-tree --command "treefmt --ci"
+      - name: Build Dell
+        run: nix-instantiate '<nixpkgs/nixos>' -A system -I nixos-config=./hardware/dell.nix
+      - name: Build Desktop
+        run: nix-instantiate '<nixpkgs/nixos>' -A system -I nixos-config=./hardware/desktop.nix
+      - name: Build ThinkPad
+        run: nix-instantiate '<nixpkgs/nixos>' -A system -I nixos-config=./hardware/thinkpad.nix
+  darwin:
+    name: Test for Darwin
+    runs-on: macos-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: cachix/install-nix-action@13d8dd58da0234aa297dedd986986ccb8e7f3e24 # v31.11.1
+        with:
+          nix_path: nixpkgs=channel:nixos-26.05:darwin=https://github.com/nix-darwin/nix-darwin/archive/nix-darwin-26.05.tar.gz:home-manager=https://github.com/nix-community/home-manager/archive/release-26.05.tar.gz:cosmic-manager=https://github.com/HeitorAugustoLN/cosmic-manager/archive/main.tar.gz
+      - name: Build MacBook
+        run: nix-instantiate '<darwin>' -A system -I darwin-config=./hardware/macbook.nix
